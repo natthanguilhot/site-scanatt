@@ -1,0 +1,20 @@
+{
+  "name": "site-scanatt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:css/style.css --style compressed",
+    "prefix": "postcss ./css/style.css --use autoprefixer -d /css/prefixe/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natthanguilhot/site-scanatt.git"
+  },
+  "author": "natthan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natthanguilhot/site-scanatt/issues"
+  },
+  "homepage": "https://github.com/natthanguilhot/site-scanatt#readme"
+}
