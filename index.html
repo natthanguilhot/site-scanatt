@@ -20,17 +20,19 @@
     <script src="https://kit.fontawesome.com/d4c8c8f50d.js" crossorigin="anonymous"></script>
 </head>
 <body class="h-screen flex">
-    <section class="bg-blue-900 text-white rounded-lg w-11/12 max-w-sm flex flex-col items-center rounded m-auto p-8">
+    <section class="bg-gray-700 text-white rounded-lg w-11/12 max-w-sm flex flex-col items-center rounded m-auto p-8">
         <h1 class="p-8 text-4xl">Connexion</h1>
-        <div class="flex flex-col w-full justify-center items-center p-4">
-            <label for="username" class="p-4">Identifiant :</label>
-            <input type="text" id="username" name="username" class="w-full text-black p-1">
-        </div>
-        <div class="flex flex-col w-full justify-center items-center p-4">
-            <label for="pass" class="p-4">Mot de passe :</label>
-            <input type="password" id="pass" name="password" class="w-full text-black p-1">
-        </div>
-        <button class="p-2 bg-white text-black rounded-lg mt-4">Se connecter</button>
+        <form>
+            <div class="flex flex-col w-full justify-center items-center p-4 text-xl">
+                <label for="username" class="p-4">Identifiant :</label>
+                <input type="text" id="username" name="username" class="w-full text-black p-1 border-none focus:ring-gray-400 focus:ring-4 focus:outline-none rounded">
+            </div>
+            <div class="flex flex-col w-full justify-center items-center p-4 text-xl">
+                <label for="pass" class="p-4">Mot de passe :</label>
+                <input type="password" id="pass" name="password" class="w-full text-black p-1 border-none focus:ring-gray-400 focus:ring-4 focus:outline-none rounded">
+            </div>
+        </form>
+        <a href="./attelle.html"><button class="p-2 bg-white text-black rounded-lg mt-4 focus:ring-4 focus:ring-gray-500 focus:outline-none">Se connecter</button></a>
     </section>
 </body>
 </html>

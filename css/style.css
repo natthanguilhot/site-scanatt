@@ -10,6 +10,7 @@ input {
 
 body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
 }
 
 h1 {
