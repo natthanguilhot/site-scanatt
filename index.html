@@ -5,7 +5,7 @@
     <link rel="icon" href="img/icon.ico" type="image/x-icon"/>
     
     <link rel="stylesheet" type="text/css" href="css/tailwind.css">
-    <link rel="stylesheet" type="text/css" href="css/prefixe/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/prefixe/style.css"> -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -13,9 +13,9 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="robots" content="follow, index">
     
+    <script src="./js/script.js" type="text/javascript"></script>
+
     <!-- Kit d'icônes -->
     <script src="https://kit.fontawesome.com/d4c8c8f50d.js" crossorigin="anonymous"></script>
     <!--  -->
@@ -46,67 +46,26 @@
             <h2 class="w-3/12 flex justify-center items-center">Date d'impréssion</h2>
             <h2 class="w-2/12 flex justify-center items-center">Délai</h2>
         </div>
-        <div class="h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300">
+        <div id="patient" class="h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300">
             <div class="w-1/12 h-full flex flex-col justify-between items-center">
-                <div class="w-full sm:h-full flex flex-col justify-center items-center relative">
+                <div id="state" class="w-full sm:h-full flex flex-col justify-center items-center relative">
                     <span class="text-red-600 state-none absolute z-10"><i class="far fa-times-circle text-4xl"></i></span>
                     <span class="text-yellow-500 state-print absolute opacity-0"><i class="fas fa-print text-4xl"></i></span>
                 </div>
             </div>
             <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">Dupont Dupond</p>
+                <p id="nom" class="w-full h-full flex flex-col justify-center items-center"></p>
             </div>
             <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">riengdutout.exe</p>
+                <p id="scan" class="w-full h-full flex flex-col justify-center items-center"></p>
             </div>
             <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">30/03/2020</p>
+                <p id="date" class="w-full h-full flex flex-col justify-center items-center"></p>
             </div>
             <div class="w-2/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">6jr(s)</p>
+                <p id="delai" class="w-full h-full flex flex-col justify-center items-center"></p>
             </div>
         </div>
-        <div class="h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300">
-            <div class="w-1/12 h-full flex flex-col justify-between items-center">
-                <div class="w-full sm:h-full flex flex-col justify-center items-center relative">
-                    <span class="text-red-600 state-none absolute z-10"><i class="far fa-times-circle text-4xl"></i></span>
-                    <span class="text-yellow-500 state-print absolute opacity-0"><i class="fas fa-print text-4xl"></i></span>
-                </div>
-            </div>
-            <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">Dupont Dupond</p>
-            </div>
-            <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">riengdutout.exe</p>
-            </div>
-            <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">30/03/2020</p>
-            </div>
-            <div class="w-2/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">6jr(s)</p>
-            </div>
-        </div>
-        <div class="h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300">
-            <div class="w-1/12 h-full flex flex-col justify-between items-center">
-                <div class="w-full sm:h-full flex flex-col justify-center items-center relative">
-                    <span class="text-red-600 state-none absolute z-10"><i class="far fa-times-circle text-4xl"></i></span>
-                    <span class="text-yellow-500 state-print absolute opacity-0"><i class="fas fa-print text-4xl"></i></span>
-                </div>
-            </div>
-            <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">Dupont Dupond</p>
-            </div>
-            <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">riengdutout.exe</p>
-            </div>
-            <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">30/03/2020</p>
-            </div>
-            <div class="w-2/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center">6jr(s)</p>
-            </div>
-        </div>
-
     </section>
     
 </body>
