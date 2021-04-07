@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     
-    <script src="./js/script.js" type="text/javascript"></script>
+    <script src="./js/script.js" type="text/javascript" defer></script>
 
     <!-- Kit d'icônes -->
     <script src="https://kit.fontawesome.com/d4c8c8f50d.js" crossorigin="anonymous"></script>
@@ -28,17 +28,41 @@
         <h1 class="text-6xl">SkinCasts</h1>
     </header>
 
+    <div class="flex flex-col justify-center items-center">
+        <i id="btn-open-form-attelle" class="fas fa-plus-circle text-4xl text-gray-600 cursor-pointer p-4"></i>
+        <div id="formulaire-add-attelle" class="w-4/12 border border-gray-600 rounded bg-white h-auto py-8 hidden">
+            <form class="flex flex-col justify-center items-center">
+                <div class="flex-col flex justify-center items-center p-4 w-full">
+                    <label for="nom">Nom du patient :</label>
+                    <input type="text" id="add-nom" name="nompatient" maxlength="50" class="w-6/12 focus:ring-2 focus:ring-gray-600 rounded">
+                </div>
+                <div class="flex-col flex justify-center items-center p-4 w-full">
+                    <label for="scan">Nom du scan :</label>
+                    <input type="text" id="add-scan" name="nomscan" maxlength="30" class="w-6/12 focus:ring-2 focus:ring-gray-600 rounded ">
+                </div>
+                <div class="flex-col flex justify-center items-center p-4 w-full">
+                    <label for="date">Date d'impréssion :</label>
+                    <input type="date" id="add-date" name="nompatient" class="w-6/12 focus:ring-2 focus:ring-gray-600 rounded">
+                </div>
+                <div class="flex justify-center items-center p-4 w-full">
+                    <div id="btn-add-attelle" class="bg-gray-600 py-2 px-8 rounded text-white cursor-pointer">Ajouter l'impression</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <section class="w-11/12 h-auto m-auto flex flex-col items-center my-4 shadow-md cursor-auto rounded-xl max-w-screen-lg">
         <h2 class="w-full flex items-center justify-center bg-gray-600 text-white">Terminé<i class="far fa-check-circle text-md m-1 text-green-500"></i></h2>
-        <div class="w-full h-full flex flex-wrap items-center justify-center">
-            <div class="lg:w-2/12 p-4 border border-gray-600 flex flex-col items-center justify-around m-2 hover:bg-gray-200 cursor-default shadow-md">
-                <p>Dupont Dupond</p>
-                <p>riengdutout.exe</p>
+        <div id="records-finished-array" class="w-full h-full flex flex-wrap items-center justify-center">
+            <div id="line-finished" class="hidden lg:w-2/12 p-4 border border-gray-600 flex flex-col items-center justify-around m-2 hover:bg-gray-200 cursor-default shadow-md">
+                <p class="nom-fini"></p>
+                <p class="scan-fini"></p>
+                <p class="date-fini"></p>
             </div>
         </div>
     </section>
 
-    <section class="max-w-screen-lg shadow-lg w-11/12 m-auto">
+    <section id="records-array" class="max-w-screen-lg shadow-lg w-11/12 m-auto">
         <div class=" m-auto flex justify-around items-center bg-gray-600 text-white">
             <h2 class="w-1/12 flex justify-center items-center">État</h2>
             <h2 class="w-3/12 flex justify-center items-center">Nom du patient</h2>
@@ -46,24 +70,24 @@
             <h2 class="w-3/12 flex justify-center items-center">Date d'impréssion</h2>
             <h2 class="w-2/12 flex justify-center items-center">Délai</h2>
         </div>
-        <div id="patient" class="h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300">
+        <div id="patient" class="h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300 cursor-pointer" style="display:none;">
             <div class="w-1/12 h-full flex flex-col justify-between items-center">
                 <div id="state" class="w-full sm:h-full flex flex-col justify-center items-center relative">
-                    <span class="text-red-600 state-none absolute z-10"><i class="far fa-times-circle text-4xl"></i></span>
-                    <span class="text-yellow-500 state-print absolute opacity-0"><i class="fas fa-print text-4xl"></i></span>
+                    <span class="text-red-600 absolute z-10 ico-waiting"><i class="far fa-times-circle text-4xl"></i></span>
+                    <span class="text-yellow-500 absolute hidden ico-printing"><i class="fas fa-print text-4xl"></i></span>
                 </div>
             </div>
             <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p id="nom" class="w-full h-full flex flex-col justify-center items-center"></p>
+                <p class="w-full h-full flex flex-col justify-center items-center nom"></p>
             </div>
             <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p id="scan" class="w-full h-full flex flex-col justify-center items-center"></p>
+                <p class="w-full h-full flex flex-col justify-center items-center scan"></p>
             </div>
             <div class="w-3/12 h-full flex flex-col justify-between items-center">
-                <p id="date" class="w-full h-full flex flex-col justify-center items-center"></p>
+                <p class="w-full h-full flex flex-col justify-center items-center date"></p>
             </div>
             <div class="w-2/12 h-full flex flex-col justify-between items-center">
-                <p id="delai" class="w-full h-full flex flex-col justify-center items-center"></p>
+                <p class="w-full h-full flex flex-col justify-center items-center delai"></p>
             </div>
         </div>
     </section>
