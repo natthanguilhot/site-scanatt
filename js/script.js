@@ -39,35 +39,39 @@ function onStateChange(line, isPrinting) {
 }
 
 let records = []
+records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
+records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
+records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
+records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
+records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
+
+
 let recordsFinished = []
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 
 // Création d'une ligne html pour chaque ligne du array records
-let ligne = document.querySelector('#patient');
-let domRecordsArray = document.querySelector('#records-array');
-
-for (let attelle of records) {
-    let newLigne = ligne.cloneNode(true);
-    newLigne.removeAttribute('id');
-    newLigne.style.display = 'flex';
-    newLigne.addEventListener('click', function() {
-        attelle.isPrinting = !attelle.isPrinting;
-        onStateChange(this, attelle.isPrinting);
-    });
-    insertLigne (attelle, newLigne);
-    domRecordsArray.appendChild(newLigne);
+function displayRecords() {
+    let ligne = document.querySelector('#patient');
+    let domRecordsArray = document.querySelector('#records-array');
+    
+    for (let attelle of records) {
+        let newLigne = ligne.cloneNode(true);
+        newLigne.removeAttribute('id');
+        newLigne.classList.add('patient');
+        newLigne.style.display = 'flex';
+        newLigne.addEventListener('click', function() {
+            attelle.isPrinting = !attelle.isPrinting;
+            onStateChange(this, attelle.isPrinting);
+        });
+        insertLigne (attelle, newLigne);
+        domRecordsArray.appendChild(newLigne);
+    }
 }
 //
 
-
 // Création d'une ligne html pour chaque ligne fini du array recordsfinished
-/* let lineFinished = document.querySelector('#line-finished');
+let lineFinished = document.querySelector('#line-finished');
 let domRecordsFinishedArray = document.querySelector('#records-finished-array');
 
 for (let attelleFini of recordsFinished) {
@@ -79,7 +83,7 @@ for (let attelleFini of recordsFinished) {
     domRecordsFinishedArray.appendChild(newLineFinished);
 };
 function insertLigneFini (nouvelleInstanceFini, elementLigneFini) {
-    let dateSplitted = nouvelleInstance.impression.split('/');
+    let dateSplitted = nouvelleInstanceFini.impression.split('/');
     let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
     let now = new Date();
 
@@ -87,7 +91,7 @@ function insertLigneFini (nouvelleInstanceFini, elementLigneFini) {
     elementLigneFini.querySelector('.scan-fini').innerHTML=nouvelleInstanceFini.scan;
     elementLigneFini.querySelector('.date-fini').innerHTML=nouvelleInstanceFini.impression;
 };
- */
+
 //
 
 // Ouverture formulaire et ajout ligne d'attelle
@@ -112,14 +116,30 @@ boutonAddAttelle.addEventListener('click', function() {
     let newRecord = new Record (addNom, addScan, addDate);
     records.push(newRecord);
 
-    let newLigne = ligne.cloneNode(true);
-    newLigne.removeAttribute('id');
-    newLigne.style.display = 'flex';
-    newLigne.addEventListener('click', onClickLine);
+    displayRecords();
     
-    insertLigne (newRecord, newLigne);
-    domRecordsArray.appendChild(newLigne);
-
     formulaireAddAttelle.style.display = "";
 });
+
+displayRecords();
 //
+
+//Affichage de la pop-up
+let popUp = document.querySelector('#pop-up');
+let ligne = document.querySelector('.patient');
+
+ligne.addEventListener('click', function() {
+    if (popUp.classList.contains('hidden')) {
+        popUp.classList.replace('hidden', 'block');
+    } else if (popUp.classList.contains('block')) {
+        popUp.classList.replace('block', 'hidden');
+    }
+});
+// update : Ajout de la classe patient a chaque ligne créé et l'ouverture de la pop-up
+
+/* let popUpImpression = document.querySelector('#popup-impression');
+popUpImpression.addEventListener('click', function() {
+    attelle.isPrinting = !attelle.isPrinting;
+    onStateChange(this, attelle.isPrinting);
+});
+ */

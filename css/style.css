@@ -21,35 +21,26 @@ h2 {
   padding: 4px;
 }
 
-.state-none:hover {
-  cursor: pointer;
-}
-.state-none:active {
-  animation: fadeout 0.5s ease-in-out 0s both;
-}
-.state-none:active + .state-print {
-  animation: fadein 0.5s ease-in-out 0.4s both;
-}
-
-@keyframes fadeout {
-  0% {
-    transform: translateY(0rem);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-2rem);
-    opacity: 0;
-  }
+/* @keyframes fadeout {
+    0%{
+        transform: translateY(0rem);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-2rem);
+        opacity: 0;
+    }
 }
 @keyframes fadein {
-  0% {
-    transform: translateY(2rem);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0rem);
-    opacity: 1;
-  }
+    0%{
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0rem);
+        opacity: 1;
+    }
 }
+ */
 
 /*# sourceMappingURL=style.css.map */

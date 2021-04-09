@@ -16,18 +16,8 @@ h1 {
 h2 {
     padding: 4px;
 }
-.state-none {
-    &:hover {
-        cursor: pointer;
-    }
-    &:active {
-        animation: fadeout 0.5s ease-in-out 0s both;
-        & + .state-print {
-            animation: fadein 0.5s ease-in-out 0.4s both;
-        }
-    }
-}
-@keyframes fadeout {
+
+/* @keyframes fadeout {
     0%{
         transform: translateY(0rem);
         opacity: 1;
@@ -47,4 +37,4 @@ h2 {
         opacity: 1;
     }
 }
-
+ */
