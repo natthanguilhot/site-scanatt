@@ -67,7 +67,7 @@ for (let attelle of records) {
 
 
 // Création d'une ligne html pour chaque ligne fini du array recordsfinished
-let lineFinished = document.querySelector('#line-finished');
+/* let lineFinished = document.querySelector('#line-finished');
 let domRecordsFinishedArray = document.querySelector('#records-finished-array');
 
 for (let attelleFini of recordsFinished) {
@@ -87,7 +87,7 @@ function insertLigneFini (nouvelleInstanceFini, elementLigneFini) {
     elementLigneFini.querySelector('.scan-fini').innerHTML=nouvelleInstanceFini.scan;
     elementLigneFini.querySelector('.date-fini').innerHTML=nouvelleInstanceFini.impression;
 };
-
+ */
 //
 
 // Ouverture formulaire et ajout ligne d'attelle
