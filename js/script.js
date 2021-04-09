@@ -16,6 +16,7 @@ function insertLigne ( nouvelleInstance, elementLigne ) {
     let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
     let now = new Date();
 
+    onStateChange(elementLigne, nouvelleInstance.isPrinting);
     elementLigne.querySelector('.nom').innerHTML=nouvelleInstance.patient;
     elementLigne.querySelector('.scan').innerHTML=nouvelleInstance.scan;
     elementLigne.querySelector('.date').innerHTML=nouvelleInstance.impression;
@@ -37,14 +38,11 @@ function onStateChange(line, isPrinting) {
         line.querySelector('.ico-waiting').style.display = "none";
     }
 }
-
+let popUp = document.querySelector('#pop-up');
 let records = []
 records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
 records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
 records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
-records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
-records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
-
 
 let recordsFinished = []
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
@@ -54,19 +52,30 @@ recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 function displayRecords() {
     let ligne = document.querySelector('#patient');
     let domRecordsArray = document.querySelector('#records-array');
+    let oldHTMLRecords = document.querySelectorAll("div.patient");
+    for(let old of oldHTMLRecords) {
+        domRecordsArray.removeChild(old);
+    }
     
-    for (let attelle of records) {
+    records.forEach(function(attelle, i) {
         let newLigne = ligne.cloneNode(true);
         newLigne.removeAttribute('id');
         newLigne.classList.add('patient');
         newLigne.style.display = 'flex';
-        newLigne.addEventListener('click', function() {
-            attelle.isPrinting = !attelle.isPrinting;
-            onStateChange(this, attelle.isPrinting);
+        newLigne.addEventListener('click', function(event) {
+            popUp.dataset.idAttelle = i;
+            const x = event.pageX;
+            const y = event.pageY;
+            if (popUp.classList.contains('hidden')) {
+                popUp.classList.replace('hidden', 'block');
+            }
+            popUp.style.top = y+'px';
+            popUp.style.left = x+'px';
+            popUp.style.zIndex = '100';
         });
         insertLigne (attelle, newLigne);
         domRecordsArray.appendChild(newLigne);
-    }
+    });
 }
 //
 
@@ -123,23 +132,22 @@ boutonAddAttelle.addEventListener('click', function() {
 
 displayRecords();
 //
+ 
+//Clic de la popup passer en impression, changement de logo.
+let popUpImpression = document.querySelector('#popup-impression');
+let popUpDelete = document.querySelector('#popup-delete');
+let popUpDone = document.querySelector('#popup-done');
 
-//Affichage de la pop-up
-let popUp = document.querySelector('#pop-up');
-let ligne = document.querySelector('.patient');
-
-ligne.addEventListener('click', function() {
-    if (popUp.classList.contains('hidden')) {
-        popUp.classList.replace('hidden', 'block');
-    } else if (popUp.classList.contains('block')) {
-        popUp.classList.replace('block', 'hidden');
-    }
-});
-// update : Ajout de la classe patient a chaque ligne créé et l'ouverture de la pop-up
-
-/* let popUpImpression = document.querySelector('#popup-impression');
 popUpImpression.addEventListener('click', function() {
-    attelle.isPrinting = !attelle.isPrinting;
-    onStateChange(this, attelle.isPrinting);
+    records[popUp.dataset.idAttelle].isPrinting = true;
+    displayRecords();
+    popUp.classList.replace('block', 'hidden');
 });
- */
+popUpDelete.addEventListener('click', function() {
+   delete records[popUp.dataset.idAttelle];
+   popUp.classList.replace('block', 'hidden');
+   displayRecords();
+});
+/* popUpDone.addEventListener('click', function() {
+
+} */
