@@ -35,7 +35,9 @@ function onStateChange(line, isPrinting) {
     }
     else if(isPrinting) {
         line.querySelector('.ico-printing').style.display = "block";
-        line.querySelector('.ico-waiting').style.display = "none";
+        line.querySelector('.ico-printing').classList.add('fadein');
+        line.querySelector('.ico-waiting').classList.add('fadeout');
+
     }
 }
 let popUp = document.querySelector('#pop-up');
@@ -48,7 +50,7 @@ let recordsFinished = []
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 
-// Création d'une ligne html pour chaque ligne du array records
+// Création/actualisation d'une ligne html pour chaque ligne du array records
 function displayRecords() {
     let ligne = document.querySelector('#patient');
     let domRecordsArray = document.querySelector('#records-array');
@@ -69,14 +71,40 @@ function displayRecords() {
             if (popUp.classList.contains('hidden')) {
                 popUp.classList.replace('hidden', 'block');
             }
-            popUp.style.top = y+'px';
-            popUp.style.left = x+'px';
+            popUp.style.top = y +'px';
+            popUp.style.left = x +'px';
             popUp.style.zIndex = '100';
         });
         insertLigne (attelle, newLigne);
         domRecordsArray.appendChild(newLigne);
     });
-}
+};
+//
+// Création/actualisation d'une ligne FINI html pour chaque ligne du array recordsFinished
+function insertLigneFinished ( nouvelleInstanceFini, elementLigneFini ) {
+    let dateSplitted = nouvelleInstanceFini.impression.split('/');
+    let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
+    let now = new Date();
+};
+
+function displayRecordsFinished () {
+    let ligneFinished = document.querySelector('#line-finished');
+    let domRecordsFinishedArray = document.querySelector('#records-finished-array');
+    let oldHTMLRecordsFinished = document.querySelectorAll("div.patientfini");
+    for(let old of oldHTMLRecordsFinished) {
+        domRecordsFinishedArray.removeChild(old);
+    }
+
+    records.forEach(function(attelle, i) {
+        let newLigneFinished = ligneFinished.cloneNode(true);
+        newLigneFinished.removeAttribute('id');
+        newLigneFinished.classList.add('patientfini');
+        newLigneFinished.classList.display = 'flex';
+        insertLigneFinished (attelle, newLigneFinished);
+        domRecordsFinishedArray.appendChild(newLigneFinished);
+    });
+
+};
 //
 
 // Création d'une ligne html pour chaque ligne fini du array recordsfinished
@@ -128,12 +156,13 @@ boutonAddAttelle.addEventListener('click', function() {
     displayRecords();
     
     formulaireAddAttelle.style.display = "";
+    event.preventDefault();
 });
 
 displayRecords();
 //
  
-//Clic de la popup passer en impression, changement de logo.
+//Fonctionnalitées pop-up.
 let popUpImpression = document.querySelector('#popup-impression');
 let popUpDelete = document.querySelector('#popup-delete');
 let popUpDone = document.querySelector('#popup-done');
@@ -148,6 +177,11 @@ popUpDelete.addEventListener('click', function() {
    popUp.classList.replace('block', 'hidden');
    displayRecords();
 });
-/* popUpDone.addEventListener('click', function() {
 
-} */
+popUpDone.addEventListener('click', function() {
+    recordsFinished.push(records[popUp.dataset.idAttelle]);
+    displayRecordsFinished();
+
+    delete records[popUp.dataset.idAttelle];
+    displayRecords();
+});

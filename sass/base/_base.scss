@@ -17,7 +17,14 @@ h2 {
     padding: 4px;
 }
 
-/* @keyframes fadeout {
+.fadeout {
+    animation: fadeout 1s ease-in-out 0s both;
+}
+.fadein {
+    animation: fadein 1s ease-in-out 0.7s both;
+}
+
+@keyframes fadeout {
     0%{
         transform: translateY(0rem);
         opacity: 1;
@@ -37,4 +44,3 @@ h2 {
         opacity: 1;
     }
 }
- */

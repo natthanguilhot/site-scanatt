@@ -31,8 +31,11 @@
     <!-- Formulaire d'ajout d'attelle -->
     <div class="flex flex-col justify-center items-center">
         <i id="btn-open-form-attelle" class="fas fa-plus-circle text-4xl text-gray-600 cursor-pointer p-4"></i>
-        <div id="formulaire-add-attelle" class="w-4/12 border border-gray-600 rounded bg-white h-auto py-8 hidden">
-            <form class="flex flex-col justify-center items-center">
+        <div id="formulaire-add-attelle" class="w-11/12 lg:w-5/12 border border-gray-600 rounded bg-white h-auto py-8 hidden max-w-screen-sm">
+            <form class="flex flex-col justify-center items-center relative">
+                <div>
+                    <input type="reset" value="Reset" class="px-2 py-1 rounded bg-gray-600 text-white cursor-pointer hover:bg-white hover:text-gray-600 border border-gray-600 border-4 text-xl">
+                </div>
                 <div class="flex-col flex justify-center items-center p-4 w-full">
                     <label for="nom">Nom du patient :</label>
                     <input type="text" id="add-nom" name="nompatient" maxlength="50" required class="w-6/12 focus:ring-2 focus:ring-gray-600 rounded">
@@ -46,7 +49,7 @@
                     <input type="date" required id="add-date" name="nompatient" class="w-6/12 focus:ring-2 focus:ring-gray-600 rounded">
                 </div>
                 <div class="flex justify-center items-center p-4 w-full">
-                    <div id="btn-add-attelle" class="bg-gray-600 py-2 px-8 rounded text-white cursor-pointer">Ajouter l'impression</div>
+                    <button id="btn-add-attelle" class="bg-gray-600 py-2 px-8 rounded text-white cursor-pointer hover:bg-white hover:text-gray-600 border border-gray-600  border-4 text-xl">Ajouter l'impression</button>
                 </div>
             </form>
         </div>
