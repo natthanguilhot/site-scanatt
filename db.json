@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "isPrinting": false,
+      "patient": "Jean",
+      "scan": "scan12.imed",
+      "impression": "31/04/2021"
+    },
+    {
+      "isPrinting": false,
+      "patient": "Marc",
+      "scan": "scan21.imed",
+      "impression": "16/04/2021"
+    }
+  ],
+  "recordsFinished": [
+    {
+      "isPrinting": true,
+      "patient": "Pierre",
+      "scan": "scan1.imed",
+      "impression": "12/04/2021"
+    }
+  ]
+}

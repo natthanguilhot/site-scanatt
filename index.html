@@ -59,10 +59,11 @@
     <section class="w-11/12 h-auto m-auto flex flex-col items-center my-4 shadow-md cursor-auto rounded-xl max-w-screen-lg">
         <h2 class="w-full flex items-center justify-center bg-gray-600 text-white">Terminé<i class="far fa-check-circle text-md m-1 text-green-500"></i></h2>
         <div id="records-finished-array" class="w-full h-full flex flex-wrap items-center justify-center">
-            <div id="line-finished" class="hidden lg:w-2/12 p-4 border border-gray-600 flex flex-col items-center justify-around m-2 hover:bg-gray-200 cursor-default shadow-md cursor-pointer">
+            <div id="line-finished" data-id-attelle class="hidden lg:w-2/12 p-4 border border-gray-600 flex flex-col items-center justify-around m-2 hover:bg-gray-200 cursor-default shadow-md relative">
                 <p class="nom-fini"></p>
                 <p class="scan-fini"></p>
                 <p class="date-fini"></p>
+                <i class="fas fa-times absolute top-2 right-2 cursor-pointer text-2xl hover:text-red-600 delete-attelle-fini"></i>
             </div>
         </div>
     </section>

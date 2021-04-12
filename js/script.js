@@ -11,18 +11,6 @@ Date.prototype.diffInDays = function (other) {
     return Math.round((other.valueOf()-this.valueOf())/(1000*60*60*24));
 }
 
-function insertLigne ( nouvelleInstance, elementLigne ) {
-    let dateSplitted = nouvelleInstance.impression.split('/');
-    let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
-    let now = new Date();
-
-    onStateChange(elementLigne, nouvelleInstance.isPrinting);
-    elementLigne.querySelector('.nom').innerHTML=nouvelleInstance.patient;
-    elementLigne.querySelector('.scan').innerHTML=nouvelleInstance.scan;
-    elementLigne.querySelector('.date').innerHTML=nouvelleInstance.impression;
-    elementLigne.querySelector('.delai').innerHTML = now.diffInDays(dateImp) +' jr(s)';
-};
-
 function convertHTMLDate (date) {
     let dateToSplitted = date.split('-');
     return dateToSplitted[2]+'/'+dateToSplitted[1]+'/'+dateToSplitted[0];
@@ -35,22 +23,35 @@ function onStateChange(line, isPrinting) {
     }
     else if(isPrinting) {
         line.querySelector('.ico-printing').style.display = "block";
-        line.querySelector('.ico-printing').classList.add('fadein');
-        line.querySelector('.ico-waiting').classList.add('fadeout');
-
+        line.querySelector('.ico-waiting').style.display = "none";
     }
 }
 let popUp = document.querySelector('#pop-up');
+
 let records = []
-records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
-records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
-records.push(new Record("Jean", "scan_12.imed", "31/04/2021"))
 
 let recordsFinished = []
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 
+function deleteFinished() {
+    recordsFinished.splice(this.parentNode.dataset.idAttelle, 1);
+    displayRecordsFinished();
+}
+
 // Création/actualisation d'une ligne html pour chaque ligne du array records
+function insertLigne ( nouvelleInstance, elementLigne ) {
+    let dateSplitted = nouvelleInstance.impression.split('/');
+    let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
+    let now = new Date();
+
+    onStateChange(elementLigne, nouvelleInstance.isPrinting);
+    elementLigne.querySelector('.nom').innerHTML=nouvelleInstance.patient;
+    elementLigne.querySelector('.scan').innerHTML=nouvelleInstance.scan;
+    elementLigne.querySelector('.date').innerHTML=nouvelleInstance.impression;
+    elementLigne.querySelector('.delai').innerHTML = now.diffInDays(dateImp) +' jr(s)';
+};
+
 function displayRecords() {
     let ligne = document.querySelector('#patient');
     let domRecordsArray = document.querySelector('#records-array');
@@ -81,44 +82,9 @@ function displayRecords() {
 };
 //
 // Création/actualisation d'une ligne FINI html pour chaque ligne du array recordsFinished
-function insertLigneFinished ( nouvelleInstanceFini, elementLigneFini ) {
-    let dateSplitted = nouvelleInstanceFini.impression.split('/');
-    let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
-    let now = new Date();
-};
-
-function displayRecordsFinished () {
-    let ligneFinished = document.querySelector('#line-finished');
-    let domRecordsFinishedArray = document.querySelector('#records-finished-array');
-    let oldHTMLRecordsFinished = document.querySelectorAll("div.patientfini");
-    for(let old of oldHTMLRecordsFinished) {
-        domRecordsFinishedArray.removeChild(old);
-    }
-
-    records.forEach(function(attelle, i) {
-        let newLigneFinished = ligneFinished.cloneNode(true);
-        newLigneFinished.removeAttribute('id');
-        newLigneFinished.classList.add('patientfini');
-        newLigneFinished.classList.display = 'flex';
-        insertLigneFinished (attelle, newLigneFinished);
-        domRecordsFinishedArray.appendChild(newLigneFinished);
-    });
-
-};
-//
-
-// Création d'une ligne html pour chaque ligne fini du array recordsfinished
 let lineFinished = document.querySelector('#line-finished');
 let domRecordsFinishedArray = document.querySelector('#records-finished-array');
 
-for (let attelleFini of recordsFinished) {
-    let newLineFinished = lineFinished.cloneNode(true);
-    newLineFinished.removeAttribute('id');
-    newLineFinished.style.display = 'flex';
-
-    insertLigneFini (attelleFini, newLineFinished);
-    domRecordsFinishedArray.appendChild(newLineFinished);
-};
 function insertLigneFini (nouvelleInstanceFini, elementLigneFini) {
     let dateSplitted = nouvelleInstanceFini.impression.split('/');
     let dateImp = new Date(dateSplitted[2], dateSplitted[1]-1, dateSplitted[0]);
@@ -129,6 +95,26 @@ function insertLigneFini (nouvelleInstanceFini, elementLigneFini) {
     elementLigneFini.querySelector('.date-fini').innerHTML=nouvelleInstanceFini.impression;
 };
 
+function displayRecordsFinished () {
+    let ligneFinished = document.querySelector('#line-finished');
+    let domRecordsFinishedArray = document.querySelector('#records-finished-array');
+    let oldHTMLRecordsFinished = document.querySelectorAll("div.patientfini");
+    for(let old of oldHTMLRecordsFinished) {
+        domRecordsFinishedArray.removeChild(old);
+    }
+
+    recordsFinished.forEach(function(attelleFini, i) {
+        let newLigneFinished = ligneFinished.cloneNode(true);
+        newLigneFinished.removeAttribute('id');
+        newLigneFinished.classList.add('patientfini');
+        newLigneFinished.classList.remove('hidden');
+        newLigneFinished.dataset.idAttelle = i;
+        let icSupp = newLigneFinished.querySelector('i');
+        icSupp.addEventListener('click', deleteFinished);
+        insertLigneFini (attelleFini, newLigneFinished);
+        domRecordsFinishedArray.appendChild(newLigneFinished);
+    });
+};
 //
 
 // Ouverture formulaire et ajout ligne d'attelle
@@ -159,7 +145,6 @@ boutonAddAttelle.addEventListener('click', function() {
     event.preventDefault();
 });
 
-displayRecords();
 //
  
 //Fonctionnalitées pop-up.
@@ -173,15 +158,36 @@ popUpImpression.addEventListener('click', function() {
     popUp.classList.replace('block', 'hidden');
 });
 popUpDelete.addEventListener('click', function() {
-   delete records[popUp.dataset.idAttelle];
-   popUp.classList.replace('block', 'hidden');
-   displayRecords();
+    records.splice(popUp.dataset.idAttelle, 1);
+    popUp.classList.replace('block', 'hidden');
+    displayRecords();
 });
-
 popUpDone.addEventListener('click', function() {
     recordsFinished.push(records[popUp.dataset.idAttelle]);
     displayRecordsFinished();
 
-    delete records[popUp.dataset.idAttelle];
+    records.splice(popUp.dataset.idAttelle, 1);
     displayRecords();
+
+    popUp.classList.replace('block', 'hidden');
 });
+//
+let data ;
+
+fetch("http://localhost:3000/records")
+.then(response => response.json())
+.then(response => {
+    records = response;
+    return fetch("http://localhost:3000/recordsFinished");
+})
+.then(response => response.json())
+.then(response => {
+    recordsFinished = response;
+    init();
+})
+
+function init() {
+    console.log(records);
+    displayRecords();
+    displayRecordsFinished();
+}
