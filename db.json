@@ -1,24 +1,34 @@
 {
   "records": [
     {
+      "id": 1,
       "isPrinting": false,
-      "patient": "Jean",
-      "scan": "scan12.imed",
-      "impression": "31/04/2021"
-    },
-    {
-      "isPrinting": false,
-      "patient": "Marc",
-      "scan": "scan21.imed",
-      "impression": "16/04/2021"
+      "patient": "test",
+      "scan": "testnomscan",
+      "impression": "14/04/2021"
     }
   ],
   "recordsFinished": [
     {
+      "id": 0,
       "isPrinting": true,
       "patient": "Pierre",
       "scan": "scan1.imed",
       "impression": "12/04/2021"
+    },
+    {
+      "id": 2,
+      "isPrinting": false,
+      "patient": "test",
+      "scan": "testnomscan",
+      "impression": "24/04/2021"
+    },
+    {
+      "id": 3,
+      "isPrinting": false,
+      "patient": "test",
+      "scan": "testnomscan",
+      "impression": "23/04/2021"
     }
   ]
 }

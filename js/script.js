@@ -1,5 +1,6 @@
 class Record {
-    constructor (patient, scan, impression) {
+    constructor (id, patient, scan, impression) {
+        this.id = id
         this.isPrinting = false;
         this.patient = patient;
         this.scan = scan;
@@ -31,13 +32,23 @@ let popUp = document.querySelector('#pop-up');
 let records = []
 
 let recordsFinished = []
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
-recordsFinished.push(new Record("Jean", "scan_12.imed", "07/04/2021"))
 
 function deleteFinished() {
-    recordsFinished.splice(this.parentNode.dataset.idAttelle, 1);
-    displayRecordsFinished();
-}
+    fetch('http://localhost:3000/recordsFinished', { 
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(recordsFinished[popUp.dataset.idAttelle]), 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.error(err);
+    });
+};
 
 // Création/actualisation d'une ligne html pour chaque ligne du array records
 function insertLigne ( nouvelleInstance, elementLigne ) {
@@ -120,7 +131,6 @@ function displayRecordsFinished () {
 // Ouverture formulaire et ajout ligne d'attelle
 let openFormAttelle = document.querySelector('#btn-open-form-attelle');
 let formulaireAddAttelle = document.querySelector('#formulaire-add-attelle');
-
 openFormAttelle.addEventListener('click', function(){
     if(formulaireAddAttelle.style.display == "block") {
         formulaireAddAttelle.style.display = "";
@@ -129,22 +139,38 @@ openFormAttelle.addEventListener('click', function(){
         formulaireAddAttelle.style.display = "block";
     }
 });
-
 const boutonAddAttelle = document.querySelector('#btn-add-attelle');
-
 boutonAddAttelle.addEventListener('click', function() {
     let addNom = document.querySelector('#add-nom').value;
     let addScan = document.querySelector('#add-scan').value;
     let addDate = convertHTMLDate(document.querySelector('#add-date').value);
-    let newRecord = new Record (addNom, addScan, addDate);
-    records.push(newRecord);
+    let id = 1;
+    if (records.length > 0) {
+        id = records[records.length-1].id+1;
+    }
 
-    displayRecords();
-    
+    console.log(id);
+    let newRecord = new Record (id, addNom, addScan, addDate);
+
     formulaireAddAttelle.style.display = "";
-    event.preventDefault();
-});
 
+    fetch('http://localhost:3000/records', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newRecord)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        
+        displayRecords();
+    })
+    .catch(err => {
+        console.error(err);
+    });
+});
 //
  
 //Fonctionnalitées pop-up.
@@ -158,18 +184,61 @@ popUpImpression.addEventListener('click', function() {
     popUp.classList.replace('block', 'hidden');
 });
 popUpDelete.addEventListener('click', function() {
-    records.splice(popUp.dataset.idAttelle, 1);
     popUp.classList.replace('block', 'hidden');
-    displayRecords();
+    fetch('http://localhost:3000/records/'+ records[popUp.dataset.idAttelle].id, { 
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(records[popUp.dataset.idAttelle]), 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.error(err);
+    });
 });
 popUpDone.addEventListener('click', function() {
-    recordsFinished.push(records[popUp.dataset.idAttelle]);
-    displayRecordsFinished();
-
-    records.splice(popUp.dataset.idAttelle, 1);
-    displayRecords();
-
     popUp.classList.replace('block', 'hidden');
+    
+    fetch('http://localhost:3000/records/'+ records[popUp.dataset.idAttelle].id, { 
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(records[popUp.dataset.idAttelle])
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        let id = 1;
+        if (recordsFinished.length > 0) {
+            id = recordsFinished[records.length-1].id+1;
+        }
+        records[popUp.dataset.idAttelle].id = id;
+
+        fetch('http://localhost:3000/recordsFinished', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(records[popUp.dataset.idAttelle])
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    })
+    .catch(err => {
+        console.error(err);
+    });
+
+    
 });
 //
 let data ;
@@ -187,7 +256,6 @@ fetch("http://localhost:3000/records")
 })
 
 function init() {
-    console.log(records);
     displayRecords();
     displayRecordsFinished();
 }
