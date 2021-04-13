@@ -33,6 +33,7 @@ let records = []
 
 let recordsFinished = []
 
+// to do : requete suppression attelle fini 
 function deleteFinished() {
     fetch('http://localhost:3000/recordsFinished', { 
         method: 'DELETE',
