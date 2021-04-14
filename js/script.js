@@ -33,11 +33,9 @@ let records = []
 
 let recordsFinished = []
 
-// to do : requete suppression attelle fini 
 function deleteFinished() {
     let id = this.parentNode.dataset.idAttelle;
-    // let attelle = recordsFinished[id];
-    fetch('http://localhost:3000/recordsFinished/'+ id, { 
+    fetch('http://localhost:3000/records/'+ id, { 
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -47,25 +45,26 @@ function deleteFinished() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
+        fetch('http://localhost:3000/recordsFinished/'+ id, { 
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(attelle), 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => {
+            console.error(err);
+        });
     })
     .catch(err => {
         console.error(err);
     });
 
-    fetch('http://localhost:3000/recordsFinished/'+ id, { 
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(attelle), 
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(err => {
-        console.error(err);
-    });
+   
 };
 
 // Création/actualisation d'une ligne html pour chaque ligne du array records
