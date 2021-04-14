@@ -35,12 +35,15 @@ let recordsFinished = []
 
 // to do : requete suppression attelle fini 
 function deleteFinished() {
-    fetch('http://localhost:3000/recordsFinished', { 
+    let id = this.parentNode.dataset.idAttelle;
+    let attelle = recordsFinished[id];
+
+    fetch('http://localhost:3000/recordsFinished/'+ id, { 
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(recordsFinished[popUp.dataset.idAttelle]), 
+        body: JSON.stringify(attelle), 
     })
     .then(response => response.json())
     .then(data => {
@@ -154,6 +157,7 @@ boutonAddAttelle.addEventListener('click', function() {
     let newRecord = new Record (id, addNom, addScan, addDate);
 
     formulaireAddAttelle.style.display = "";
+    event.preventDefault();
 
     fetch('http://localhost:3000/records', { 
         method: 'POST',
