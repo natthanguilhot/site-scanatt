@@ -36,7 +36,21 @@ let recordsFinished = []
 // to do : requete suppression attelle fini 
 function deleteFinished() {
     let id = this.parentNode.dataset.idAttelle;
-    let attelle = recordsFinished[id];
+    // let attelle = recordsFinished[id];
+    fetch('http://localhost:3000/recordsFinished/'+ id, { 
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(attelle.id), 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.error(err);
+    });
 
     fetch('http://localhost:3000/recordsFinished/'+ id, { 
         method: 'DELETE',
