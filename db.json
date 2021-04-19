@@ -1,19 +1,44 @@
 {
-  "records": [],
-  "recordsFinished": [
+  "records": [
+    {
+      "id": 1,
+      "isPrinting": false,
+      "isFinished": false,
+      "patient": "a",
+      "scan": "a",
+      "impression": "22/04/2021",
+      "isDeleted": true,
+      "dateDeleted": "19/04/2021-16:26:56"
+    },
     {
       "id": 2,
       "isPrinting": false,
-      "patient": "ab",
-      "scan": "testscan",
-      "impression": "15/04/2021"
+      "isFinished": false,
+      "patient": "b",
+      "scan": "b",
+      "impression": "23/04/2021",
+      "isDeleted": true,
+      "dateDeleted": "19/04/2021-16:27:25"
     },
     {
       "id": 3,
+      "isPrinting": true,
+      "isFinished": true,
+      "patient": "riengdutt",
+      "scan": "testnomscan",
+      "impression": "24/04/2021",
+      "isDeleted": true,
+      "dateDeleted": "19/04/2021-16:28:38"
+    },
+    {
+      "id": 4,
       "isPrinting": false,
+      "isFinished": false,
       "patient": "test",
-      "scan": "ab",
-      "impression": "16/04/2021"
+      "scan": "testnomscan",
+      "impression": "22/04/2021",
+      "isDeleted": false,
+      "dateDeleted": null
     }
   ]
 }

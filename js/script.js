@@ -2,10 +2,29 @@ class Record {
     constructor (id, patient, scan, impression) {
         this.id = id
         this.isPrinting = false;
+        this.isFinished = false;
         this.patient = patient;
         this.scan = scan;
         this.impression = impression;
+        this.isDeleted = false;
+        this.dateDeleted = null;
     }
+}
+
+Date.prototype.DDMMYYYYHHMMSS = function () {
+    var yyyy = this.getFullYear();
+    var MM = this.getMonth() + 1;
+    var dd = this.getDate();
+    var hh = this.getHours();
+    var mm = this.getMinutes();
+    var ss = this.getSeconds();
+    return [
+        (dd>9 ? '' : '0') + dd,
+        (MM>9 ? '' : '0') + MM,
+        yyyy].join('/') + "-" +
+        [(hh>9 ? '' : '0') + hh,
+        (mm>9 ? '' : '0') + mm,
+        (ss>9 ? '' : '0') + ss].join(':');
 }
 
 Date.prototype.diffInDays = function (other) {
@@ -31,40 +50,25 @@ let popUp = document.querySelector('#pop-up');
 
 let records = []
 
-let recordsFinished = []
-
 function deleteFinished() {
     let id = this.parentNode.dataset.idAttelle;
+    let index = this.parentNode.dataset.indexAttelle;
+    records[index].isDeleted = true;
+    records[index].dateDeleted = new Date().DDMMYYYYHHMMSS();
     fetch('http://localhost:3000/records/'+ id, { 
-        method: 'GET',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(attelle.id), 
+        body: JSON.stringify(records[index]), 
     })
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        fetch('http://localhost:3000/recordsFinished/'+ id, { 
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(attelle), 
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => {
-            console.error(err);
-        });
     })
     .catch(err => {
         console.error(err);
     });
-
-   
 };
 
 // Création/actualisation d'une ligne html pour chaque ligne du array records
@@ -89,23 +93,27 @@ function displayRecords() {
     }
     
     records.forEach(function(attelle, i) {
-        let newLigne = ligne.cloneNode(true);
-        newLigne.removeAttribute('id');
-        newLigne.classList.add('patient');
-        newLigne.style.display = 'flex';
-        newLigne.addEventListener('click', function(event) {
-            popUp.dataset.idAttelle = i;
-            const x = event.pageX;
-            const y = event.pageY;
-            if (popUp.classList.contains('hidden')) {
-                popUp.classList.replace('hidden', 'block');
-            }
-            popUp.style.top = y +'px';
-            popUp.style.left = x +'px';
-            popUp.style.zIndex = '100';
-        });
-        insertLigne (attelle, newLigne);
-        domRecordsArray.appendChild(newLigne);
+        if(attelle.isFinished == false && attelle.isDeleted == false) {
+            let newLigne = ligne.cloneNode(true);
+            newLigne.removeAttribute('id');
+            newLigne.classList.add('patient');
+            newLigne.style.display = 'flex';
+            newLigne.addEventListener('click', function(event) {
+                popUp.dataset.idAttelle = i;
+                const x = event.pageX;
+                const y = event.pageY;
+                popUp.style.top = y +'px';
+                popUp.style.left = x +'px';
+                popUp.style.zIndex = '100';
+                setTimeout(function() {
+                    if (popUp.classList.contains('hidden')) {
+                        popUp.classList.replace('hidden', 'block');
+                    }
+                }, 1);
+            });
+            insertLigne (attelle, newLigne);
+            domRecordsArray.appendChild(newLigne);
+        }
     });
 };
 //
@@ -131,16 +139,19 @@ function displayRecordsFinished () {
         domRecordsFinishedArray.removeChild(old);
     }
 
-    recordsFinished.forEach(function(attelleFini, i) {
-        let newLigneFinished = ligneFinished.cloneNode(true);
-        newLigneFinished.removeAttribute('id');
-        newLigneFinished.classList.add('patientfini');
-        newLigneFinished.classList.remove('hidden');
-        newLigneFinished.dataset.idAttelle = i;
-        let icSupp = newLigneFinished.querySelector('i');
-        icSupp.addEventListener('click', deleteFinished);
-        insertLigneFini (attelleFini, newLigneFinished);
-        domRecordsFinishedArray.appendChild(newLigneFinished);
+    records.forEach(function(attelleFini, i) {
+        if(attelleFini.isFinished == true && attelleFini.isDeleted == false) {
+            let newLigneFinished = ligneFinished.cloneNode(true);
+            newLigneFinished.removeAttribute('id');
+            newLigneFinished.classList.add('patientfini');
+            newLigneFinished.classList.remove('hidden');
+            newLigneFinished.dataset.idAttelle = attelleFini.id;
+            newLigneFinished.dataset.indexAttelle = i;
+            let icSupp = newLigneFinished.querySelector('i');
+            icSupp.addEventListener('click', deleteFinished);
+            insertLigneFini (attelleFini, newLigneFinished);
+            domRecordsFinishedArray.appendChild(newLigneFinished);
+        }
     });
 };
 //
@@ -170,7 +181,6 @@ boutonAddAttelle.addEventListener('click', function() {
     let newRecord = new Record (id, addNom, addScan, addDate);
 
     formulaireAddAttelle.style.display = "";
-    event.preventDefault();
 
     fetch('http://localhost:3000/records', { 
         method: 'POST',
@@ -198,17 +208,35 @@ let popUpDone = document.querySelector('#popup-done');
 
 popUpImpression.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isPrinting = true;
-    displayRecords();
-    popUp.classList.replace('block', 'hidden');
-});
-popUpDelete.addEventListener('click', function() {
-    popUp.classList.replace('block', 'hidden');
-    fetch('http://localhost:3000/records/'+ records[popUp.dataset.idAttelle].id, { 
-        method: 'DELETE',
+    let rec = records[popUp.dataset.idAttelle];
+    fetch('http://localhost:3000/records/'+ rec.id, { 
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(records[popUp.dataset.idAttelle]), 
+        body: JSON.stringify(rec), 
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayRecords();
+        popUp.classList.replace('block', 'hidden');
+    })
+    .catch(err => {
+        console.error(err);
+    });
+});
+popUpDelete.addEventListener('click', function() {
+    records[popUp.dataset.idAttelle].isDeleted = true;
+    records[popUp.dataset.idAttelle].dateDeleted = new Date().DDMMYYYYHHMMSS();
+    let rec = records[popUp.dataset.idAttelle];
+
+    popUp.classList.replace('block', 'hidden');
+    fetch('http://localhost:3000/records/'+ rec.id, { 
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(rec), 
     })
     .then(response => response.json())
     .then(data => {
@@ -219,57 +247,33 @@ popUpDelete.addEventListener('click', function() {
     });
 });
 popUpDone.addEventListener('click', function() {
-    popUp.classList.replace('block', 'hidden');
-    
-    fetch('http://localhost:3000/records/'+ records[popUp.dataset.idAttelle].id, { 
-        method: 'DELETE',
+    records[popUp.dataset.idAttelle].isFinished = true;
+    records[popUp.dataset.idAttelle].isPrinting = true;
+    let rec = records[popUp.dataset.idAttelle];
+    fetch('http://localhost:3000/records/'+ rec.id, { 
+        method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(records[popUp.dataset.idAttelle])
+        body: JSON.stringify(rec), 
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        let id = 1;
-        if (recordsFinished.length > 0) {
-            id = recordsFinished[records.length-1].id+1;
-        }
-        records[popUp.dataset.idAttelle].id = id;
-
-        fetch('http://localhost:3000/recordsFinished', { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(records[popUp.dataset.idAttelle])
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => {
-            console.error(err);
-        });
+        displayRecords();
+        displayRecordsFinished();
+        popUp.classList.replace('block', 'hidden');
     })
     .catch(err => {
         console.error(err);
-    });
-
-    
+    });  
 });
-//
+
 let data ;
 
 fetch("http://localhost:3000/records")
 .then(response => response.json())
 .then(response => {
     records = response;
-    return fetch("http://localhost:3000/recordsFinished");
-})
-.then(response => response.json())
-.then(response => {
-    recordsFinished = response;
     init();
 })
 
@@ -277,3 +281,9 @@ function init() {
     displayRecords();
     displayRecordsFinished();
 }
+
+document.addEventListener('click', function() {
+    if (popUp.classList.contains('block')) {
+        popUp.classList.replace('block', 'hidden');
+    }
+});
