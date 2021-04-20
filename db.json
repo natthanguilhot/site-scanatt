@@ -2,33 +2,33 @@
   "records": [
     {
       "id": 1,
-      "isPrinting": false,
-      "isFinished": false,
+      "isPrinting": true,
+      "isFinished": true,
       "patient": "a",
       "scan": "a",
       "impression": "22/04/2021",
       "isDeleted": true,
-      "dateDeleted": "19/04/2021-16:26:56"
+      "dateDeleted": "20/04/2021-09:12:21"
     },
     {
       "id": 2,
-      "isPrinting": false,
-      "isFinished": false,
+      "isPrinting": true,
+      "isFinished": true,
       "patient": "b",
       "scan": "b",
       "impression": "23/04/2021",
-      "isDeleted": true,
-      "dateDeleted": "19/04/2021-16:27:25"
+      "isDeleted": false,
+      "dateDeleted": null
     },
     {
       "id": 3,
       "isPrinting": true,
-      "isFinished": true,
+      "isFinished": false,
       "patient": "riengdutt",
       "scan": "testnomscan",
       "impression": "24/04/2021",
-      "isDeleted": true,
-      "dateDeleted": "19/04/2021-16:28:38"
+      "isDeleted": false,
+      "dateDeleted": null
     },
     {
       "id": 4,

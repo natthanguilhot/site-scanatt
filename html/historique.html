@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Historique - Suivi d'impression - SkinCasts</title>
+    <link rel="icon" href="../img/icon.ico" type="image/x-icon"/>
+    
+    <link rel="stylesheet" type="text/css" href="../css/tailwind.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap" rel="stylesheet">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    
+    <script src="../js/historique.js" defer></script>
+    <script src="../js/script.js" defer></script>
+
+
+    <!-- Kit d'icônes -->
+    <script src="https://kit.fontawesome.com/d4c8c8f50d.js" crossorigin="anonymous"></script>
+    <!--  -->
+
+</head>
+
+<body class="bg-gray-50">
+    <header class="flex flex-col sm:flex-row justify-around lg:justify-center items-center lg:p-16 p-4 relative">
+        <h1 class="text-6xl">SkinCasts</h1>
+    </header>
+    <nav class="flex flex-wrap justify-center items-center">
+        <a href="../index.html">
+            <p class="flex justify-center items-center hover:bg-gray-600 hover:text-white text-black h-auto cursor-pointer w-auto p-2 m-2 rounded"><i class="fas fa-arrow-circle-left text-4xl pr-2"></i>Suivi d'impréssion</p>
+        </a>
+    </nav>
+
+    <main class="w-11/12 lg:w-6/12 m-auto">
+        <div class=" m-auto flex justify-around items-center bg-gray-600 text-white">
+            <h2 class="w-4/12 flex justify-center items-center">Nom du patient</h2>
+            <h2 class="w-4/12 flex justify-center items-center">Nom du scan</h2>
+            <h2 class="w-4/12 flex justify-center items-center">Date de suppression</h2>
+        </div>
+        <div id="attelle_suppr" class="hidden h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300 cursor-pointer">
+            <div class="w-4/12 h-full flex flex-col justify-between items-center">
+                <p class="w-full h-full flex flex-col justify-center items-center nom"></p>
+            </div>
+            <div class="w-4/12 h-full flex flex-col justify-between items-center">
+                <p class="w-full h-full flex flex-col justify-center items-center scan"></p>
+            </div>
+            <div class="w-4/12 h-full flex flex-col justify-between items-center">
+                <p class="w-full h-full flex flex-col justify-center items-center date_deleted"></p>
+            </div>
+        </div>
+    </main>
+</body>

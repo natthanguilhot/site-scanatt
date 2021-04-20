@@ -14,7 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     
-    <script src="./js/script.js" type="text/javascript" defer></script>
+    <script src="./js/script.js" defer></script>
+    <script src="./js/index.js" defer></script>
 
     <!-- Kit d'icônes -->
     <script src="https://kit.fontawesome.com/d4c8c8f50d.js" crossorigin="anonymous"></script>
@@ -30,10 +31,12 @@
 
     <!-- Formulaire d'ajout d'attelle -->
     <div class="flex flex-col justify-center items-center">
-        <div class="flex flex-wrap justify-center items-center">
-            <p id="btn-open-form-attelle" class="flex justify-center items-center hover:bg-gray-600 hover:text-white text-black h-auto cursor-pointer w-48 p-2 m-2 rounded">Ajouter un scan<i class="fas fa-plus-circle text-4xl pl-2"></i></p>
-            <p class="flex justify-center items-center hover:bg-gray-600 hover:text-white text-black h-auto cursor-pointer w-80 p-2 m-2 rounded">Historique des suppressions<i id="btn-open-form-attelle" class="fas fa-history text-4xl pl-2"></i></p>
-        </div>
+        <nav class="flex flex-wrap justify-center items-center">
+            <p id="btn-open-form-attelle" class="flex justify-center items-center hover:bg-gray-600 hover:text-white text-black h-auto cursor-pointer w-auto p-2 m-2 rounded">Ajouter un scan<i class="fas fa-plus-circle text-4xl pl-2"></i></p>
+            <a href="./html/historique.html">
+                <p class="flex justify-center items-center hover:bg-gray-600 hover:text-white text-black h-auto cursor-pointer w-auto p-2 m-2 rounded">Historique des suppressions<i id="btn-open-form-attelle" class="fas fa-history text-4xl pl-2"></i></p>
+            </a>
+        </nav>
         <div id="formulaire-add-attelle" class="w-11/12 lg:w-5/12 border border-gray-600 rounded bg-white h-auto py-8 hidden max-w-screen-sm">
             <form class="flex flex-col justify-center items-center relative">
                 <!-- <div>
@@ -67,7 +70,7 @@
                 <p class="nom-fini"></p>
                 <p class="scan-fini"></p>
                 <p class="date-fini"></p>
-                <i class="fas fa-times absolute top-2 right-2 cursor-pointer text-2xl hover:text-red-600 delete-attelle-fini"></i>
+                <i class="far fa-times-circle absolute top-2 right-2 cursor-pointer text-2xl hover:text-red-600 delete-attelle-fini"></i>
             </div>
         </div>
     </section>
