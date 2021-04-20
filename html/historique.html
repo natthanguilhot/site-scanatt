@@ -13,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     
-    <script src="../js/historique.js" defer></script>
     <script src="../js/script.js" defer></script>
+    <script src="../js/historique.js" defer></script>
 
 
     <!-- Kit d'icônes -->
@@ -34,21 +34,22 @@
     </nav>
 
     <main class="w-11/12 lg:w-6/12 m-auto">
-        <div class=" m-auto flex justify-around items-center bg-gray-600 text-white">
-            <h2 class="w-4/12 flex justify-center items-center">Nom du patient</h2>
+        <div class="m-auto flex justify-start items-center bg-gray-600 text-white">
+            <h2 class="w-3/12 flex justify-center items-center">Nom du patient</h2>
             <h2 class="w-4/12 flex justify-center items-center">Nom du scan</h2>
             <h2 class="w-4/12 flex justify-center items-center">Date de suppression</h2>
         </div>
-        <div id="attelle_suppr" class="hidden h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300 cursor-pointer">
-            <div class="w-4/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center nom"></p>
+        <div id="attelle_suppr" class="hidden h-16 m-auto flex items-center  cursor-auto border-b-2 border-black hover:bg-gray-300" data-index-attelle>
+            <div class="w-3/12 h-full flex flex-col justify-between items-center">
+                <p class="w-full h-full flex flex-col justify-center items-center nom_deleted"></p>
             </div>
             <div class="w-4/12 h-full flex flex-col justify-between items-center">
-                <p class="w-full h-full flex flex-col justify-center items-center scan"></p>
+                <p class="w-full h-full flex flex-col justify-center items-center scan_deleted"></p>
             </div>
             <div class="w-4/12 h-full flex flex-col justify-between items-center">
                 <p class="w-full h-full flex flex-col justify-center items-center date_deleted"></p>
             </div>
+            <i class="fas fa-trash-restore-alt text-3xl hover:text-green-600 restore cursor-pointer"></i>
         </div>
     </main>
 </body>
