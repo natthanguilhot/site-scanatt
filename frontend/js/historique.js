@@ -5,7 +5,7 @@ function deleteFinished() {
     records[index].dateDeleted = null;
     let record = records[index];
     
-    fetch('http://raspberrypi:3000/records/'+ record.id, { 
+    fetch('http://localhost:3000/api/attelles'+ record.id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function addDisplayRecord(index, record, htmlTemplate, domRecords) {
 
 let records = []
 
-fetch('http://raspberrypi:3000/records')
+fetch('http://localhost:3000/api/attelles')
 .then(response => response.json())
 .then(response => {
     records = response;

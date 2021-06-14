@@ -3,11 +3,10 @@ const router = express.Router();
 const Attelle = require('../models/Attelle');
 
 
-router.get('/' +
-  '', (req, res, next) => {
+router.get('/', (req, res, next) => {
   Attelle.find().then(
-    (attelle) => {
-      res.status(200).json(attelles);
+    (Attelle) => {
+      res.status(200).json(attelle);
     }
   ).catch(
     (error) => {

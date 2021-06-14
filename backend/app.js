@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const attelleRoutes = require('./routes/attelle');
 
-mongoose.connect('mongodb+srv://Natt:1234@cluster0.d4jo3.mongodb.net/Skincasts?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://Natt:1234@cluster0.d4jo3.mongodb.net/Attelles?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB OK !'))

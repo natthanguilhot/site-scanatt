@@ -17,7 +17,7 @@ function deleteFinished() {
     let index = this.parentNode.dataset.indexAttelle;
     records[index].isDeleted = true;
     records[index].dateDeleted = new Date().DDMMYYYYHHMMSS();
-    fetch('http://raspberrypi:3000/records/'+ id, { 
+    fetch('http://localhost:3000/api/attelles'+ id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ boutonAddAttelle.addEventListener('click', function() {
 
     formulaireAddAttelle.style.display = "";
 
-    fetch('http://raspberrypi:3000/records', { 
+    fetch('http://localhost:3000/api/attelles', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -171,7 +171,7 @@ let popUpDone = document.querySelector('#popup-done');
 popUpImpression.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
-    fetch('http://raspberrypi:3000/records/'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles'+ rec.id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ popUpDelete.addEventListener('click', function() {
     let rec = records[popUp.dataset.idAttelle];
 
     popUp.classList.replace('block', 'hidden');
-    fetch('http://raspberrypi:3000/records/'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles'+ rec.id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ popUpDone.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isFinished = true;
     records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
-    fetch('http://raspberrypi:3000/records/'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles'+ rec.id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ popUpDone.addEventListener('click', function() {
 
 let data ;
 
-fetch("http://raspberrypi:3000/records")
+fetch("http://localhost:3000/api/attelles")
 .then(response => response.json())
 .then(response => {
     records = response;
