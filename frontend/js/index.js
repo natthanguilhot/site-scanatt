@@ -13,11 +13,11 @@ let popUp = document.querySelector('#pop-up');
 let records = []
 
 function deleteFinished() {
-    let id = this.parentNode.dataset.idAttelle;
+    let id = this.parentNode._id;
     let index = this.parentNode.dataset.indexAttelle;
     records[index].isDeleted = true;
     records[index].dateDeleted = new Date().DDMMYYYYHHMMSS();
-    fetch('http://localhost:3000/api/attelles'+ id, { 
+    fetch('http://localhost:3000/api/attelles/'+ records[index]._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -27,6 +27,7 @@ function deleteFinished() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
+        displayRecordsFinished();
     })
     .catch(err => {
         console.error(err);
@@ -129,18 +130,24 @@ openFormAttelle.addEventListener('click', function(){
         formulaireAddAttelle.style.display = "block";
     }
 });
+//
+// Add attelle POST
 const boutonAddAttelle = document.querySelector('#btn-add-attelle');
 boutonAddAttelle.addEventListener('click', function() {
+    console.log(records.length);
     let addNom = document.querySelector('#add-nom').value;
     let addScan = document.querySelector('#add-scan').value;
     let addDate = convertHTMLDate(document.querySelector('#add-date').value);
     let id = 1;
     if (records.length > 0) {
         id = records[records.length-1].id+1;
+    } else {
+        id = 1;
     }
 
     console.log(id);
     let newRecord = new Record (id, addNom, addScan, addDate);
+    console.log(newRecord);
 
     formulaireAddAttelle.style.display = "";
 
@@ -163,7 +170,7 @@ boutonAddAttelle.addEventListener('click', function() {
 });
 //
  
-//Fonctionnalitées pop-up.
+////////////////////////////////////////////////////////////////////////Fonctionnalitées pop-up. //////////////////////////////////////////////////////////////////////////////////
 let popUpImpression = document.querySelector('#popup-impression');
 let popUpDelete = document.querySelector('#popup-delete');
 let popUpDone = document.querySelector('#popup-done');
@@ -171,7 +178,7 @@ let popUpDone = document.querySelector('#popup-done');
 popUpImpression.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
-    fetch('http://localhost:3000/api/attelles'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -193,7 +200,7 @@ popUpDelete.addEventListener('click', function() {
     let rec = records[popUp.dataset.idAttelle];
 
     popUp.classList.replace('block', 'hidden');
-    fetch('http://localhost:3000/api/attelles'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles/'+ rec.id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -212,7 +219,7 @@ popUpDone.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isFinished = true;
     records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
-    fetch('http://localhost:3000/api/attelles'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

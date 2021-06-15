@@ -7,7 +7,7 @@ class Record {
         this.scan = scan;
         this.impression = impression;
         this.isDeleted = false;
-        this.dateDeleted = null;
+        this.dateDeleted = "";
     }
 }
 
