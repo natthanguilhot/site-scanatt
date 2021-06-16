@@ -67,7 +67,10 @@
 
     <!-- Tableau attelle fini -->
     <section class="w-11/12 h-auto m-auto flex flex-col items-center my-4 shadow-md cursor-auto rounded-xl max-w-screen-lg">
-        <h2 class="w-full flex items-center justify-center bg-gray-600 text-white">Terminé<i class="far fa-check-circle text-md m-1 text-green-500"></i></h2>
+        <div class="w-full flex items-center justify-end bg-gray-600 text-white relative">
+            <h2 class="flex items-center justify-center absolute inset-x-2/4">Terminé<i class="far fa-check-circle text-md m-1 text-green-500"></i></h2>
+            <button id="suppr_all_finished" class="mr-2 cursor-pointer hover:underline hover:text-red-400">Tout supprimer <i class="fas fa-trash-alt"></i></button      >
+        </div>
         <div id="records-finished-array" class="w-full h-full flex flex-wrap items-center justify-center">
             <div id="line-finished" data-id-attelle data-index-attelle class="hidden lg:w-2/12 p-4 border border-gray-600 flex flex-col items-center justify-around m-2 hover:bg-gray-200 cursor-default shadow-md relative">
                 <p class="nom-fini"></p>

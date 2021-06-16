@@ -248,6 +248,33 @@ document.addEventListener('click', function() {
     }
 });
 
+const supprAllFinished = document.querySelector('#suppr_all_finished');
+supprAllFinished.addEventListener('click', function(){
+    let attelleFini = document.querySelectorAll('.patientfini');
+    console.log(attelleFini);
+    for(let attelle of attelleFini){
+        attelle.isFinished = true;
+        attelle.isPrinting = true;
+        let rec = records[popUp.dataset.idAttelle];
+        fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(rec), 
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayRecords();
+            displayRecordsFinished();
+            popUp.classList.replace('block', 'hidden');
+        })
+        .catch(err => {
+            console.error(err);
+        });  
+    }
+});
+
 // TODO : Enlever les windows.location.reload() et mettre des fonctions affichage désaffichage | Fonctionnatlité suppréssions multiple attelles terminé |
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
