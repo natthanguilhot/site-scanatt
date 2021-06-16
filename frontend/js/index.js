@@ -50,11 +50,9 @@ function displayRecords() {
     let ligne = document.querySelector('#patient');
     let domRecordsArray = document.querySelector('#records-array');
     let oldHTMLRecords = document.querySelectorAll("div.patient");
-
     for(let old of oldHTMLRecords) {
         domRecordsArray.removeChild(old);
     }
-    
     records.forEach(function(attelle, i) {
         if(attelle.isFinished == false && attelle.isDeleted == false) {
             let newLigne = ligne.cloneNode(true);
@@ -131,6 +129,7 @@ openFormAttelle.addEventListener('click', function(){
     }
 });
 //
+
 // Add attelle / POST
 const boutonAddAttelle = document.querySelector('#btn-add-attelle');
 boutonAddAttelle.addEventListener('click', function() {
@@ -139,6 +138,7 @@ boutonAddAttelle.addEventListener('click', function() {
     let addDate = convertHTMLDate(document.querySelector('#add-date').value);
    
     let newRecord = new Record (addNom, addScan, addDate);
+    records.push(newRecord);
 
     formulaireAddAttelle.style.display = "";
 
@@ -149,11 +149,7 @@ boutonAddAttelle.addEventListener('click', function() {
         },
         body: JSON.stringify(newRecord)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        window.location.reload();
-    })
+    .then(() => displayRecords())
     .catch(err => {
         console.error(err);
     });
@@ -175,8 +171,7 @@ popUpImpression.addEventListener('click', function() {
         },
         body: JSON.stringify(rec), 
     })
-    .then(response => (response.json()))
-    .then(data => {
+    .then(() => {
         displayRecords();
         popUp.classList.replace('block', 'hidden');
     })
@@ -197,10 +192,7 @@ popUpDelete.addEventListener('click', function() {
         },
         body: JSON.stringify(rec), 
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
+    .then(() => displayRecords())
     .catch(err => {
         console.error(err);
     });
@@ -217,7 +209,7 @@ popUpDone.addEventListener('click', function() {
         body: JSON.stringify(rec), 
     })
     .then(response => response.json())
-    .then(data => {
+    .then(() => {
         displayRecords();
         displayRecordsFinished();
         popUp.classList.replace('block', 'hidden');
@@ -226,7 +218,7 @@ popUpDone.addEventListener('click', function() {
         console.error(err);
     });  
 });
-//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let data ;
 
@@ -248,34 +240,30 @@ document.addEventListener('click', function() {
     }
 });
 
+
+/////////////////////////////////////////////////////////////////////////////////////////// SUPPR ALL //////////////////////////////////////////////
 const supprAllFinished = document.querySelector('#suppr_all_finished');
 supprAllFinished.addEventListener('click', function(){
-    let attelleFini = document.querySelectorAll('.patientfini');
-    console.log(attelleFini);
-    for(let attelle of attelleFini){
-        attelle.isFinished = true;
-        attelle.isPrinting = true;
-        let rec = records[popUp.dataset.idAttelle];
-        fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(rec), 
-        })
-        .then(response => response.json())
-        .then(data => {
-            displayRecords();
-            displayRecordsFinished();
-            popUp.classList.replace('block', 'hidden');
-        })
-        .catch(err => {
-            console.error(err);
-        });  
+    for(let attelle of records){
+        if (attelle.isFinished === true && attelle.isDeleted === false) {
+            attelle.isDeleted = true;
+            attelle.dateDeleted = new Date().DDMMYYYYHHMMSS();
+            fetch('http://localhost:3000/api/attelles/'+ attelle._id, { 
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(attelle), 
+            })
+            .then(() => {
+                displayRecordsFinished();
+            })
+            .catch(err => {
+                console.error(err);
+            });  
+        }
     }
 });
-
-// TODO : Enlever les windows.location.reload() et mettre des fonctions affichage désaffichage | Fonctionnatlité suppréssions multiple attelles terminé |
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let testdelete = document.querySelector('#test');
@@ -283,7 +271,8 @@ testdelete.addEventListener('click', function(){
     fetch('http://localhost:3000/api/attelles', { 
         method: 'delete',
     })
-    .then(response => window.location.reload())
+    .then(response => 
+        window.location.reload())
     .catch(err => {
         console.error(err);
     });  

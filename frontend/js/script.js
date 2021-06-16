@@ -8,7 +8,7 @@ class Record {
         this.isDeleted = false;
         this.dateDeleted = "";
     }
-}
+};
 
 Date.prototype.DDMMYYYYHHMMSS = function () {
     var yyyy = this.getFullYear();
@@ -24,11 +24,11 @@ Date.prototype.DDMMYYYYHHMMSS = function () {
         [(hh>9 ? '' : '0') + hh,
         (mm>9 ? '' : '0') + mm,
         (ss>9 ? '' : '0') + ss].join(':');
-}
+};
 
 Date.prototype.diffInDays = function (other) {
     return Math.round((other.valueOf()-this.valueOf())/(1000*60*60*24));
-}
+};
 
 function convertHTMLDate (date) {
     let dateToSplitted = date.split('-');
