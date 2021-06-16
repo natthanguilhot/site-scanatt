@@ -1,5 +1,4 @@
 function restoreDeleted() {
-    
     let index = this.parentNode.dataset.indexAttelle;
 
     records[index].isDeleted = false;
@@ -16,7 +15,7 @@ function restoreDeleted() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        displayRecordsDeleted;
+        displayRecordsDeleted();
     })
     .catch(err => {
         console.error(err);
@@ -42,12 +41,12 @@ function addDisplayRecord(index, record, htmlTemplate, domRecords) {
 
     domRecords.appendChild(newLine);
 }
+let records = []
 
 function displayRecordsDeleted () {
     fetch('http://localhost:3000/api/attelles')
     .then(response => response.json())
     .then(response => {
-        let records = []
         records = response;
 
         let ligne = document.querySelector('#attelle_suppr');

@@ -42,4 +42,11 @@ app.put('/api/attelles/:id', (req,res,next)=>{
     .catch(error=> res.status(400).json({ error }))
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+app.delete('/api/attelles', (req,res,next)=>{
+    Attelle.deleteMany()
+    .then(()=>res.status(201).json({ message :'Attelle mis à jour !'}))
+    .catch(error=> res.status(400).json({ error }))
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = app;

@@ -51,6 +51,7 @@ function displayRecords() {
     let ligne = document.querySelector('#patient');
     let domRecordsArray = document.querySelector('#records-array');
     let oldHTMLRecords = document.querySelectorAll("div.patient");
+
     for(let old of oldHTMLRecords) {
         domRecordsArray.removeChild(old);
     }
@@ -141,13 +142,9 @@ boutonAddAttelle.addEventListener('click', function() {
     let id = 1;
     if (records.length > 0) {
         id = records[records.length-1].id+1;
-    } else {
-        id = 1;
     }
 
-    console.log(id);
     let newRecord = new Record (id, addNom, addScan, addDate);
-    console.log(newRecord);
 
     formulaireAddAttelle.style.display = "";
 
@@ -161,8 +158,7 @@ boutonAddAttelle.addEventListener('click', function() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        
-        displayRecords();
+        window.location.reload();
     })
     .catch(err => {
         console.error(err);
@@ -200,7 +196,7 @@ popUpDelete.addEventListener('click', function() {
     let rec = records[popUp.dataset.idAttelle];
 
     popUp.classList.replace('block', 'hidden');
-    fetch('http://localhost:3000/api/attelles/'+ rec.id, { 
+    fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -257,3 +253,15 @@ document.addEventListener('click', function() {
         popUp.classList.replace('block', 'hidden');
     }
 });
+
+
+let testdelete = document.querySelector('#test');
+testdelete.addEventListener('click', function(){
+    fetch('http://localhost:3000/api/attelles', { 
+        method: 'delete',
+    })
+    .then(response => console.log(response.json()))
+    .catch(err => {
+        console.error(err);
+    });  
+})
