@@ -13,7 +13,6 @@ let popUp = document.querySelector('#pop-up');
 let records = []
 
 function deleteFinished() {
-    let id = this.parentNode._id;
     let index = this.parentNode.dataset.indexAttelle;
     records[index].isDeleted = true;
     records[index].dateDeleted = new Date().DDMMYYYYHHMMSS();
@@ -132,19 +131,14 @@ openFormAttelle.addEventListener('click', function(){
     }
 });
 //
-// Add attelle POST
+// Add attelle / POST
 const boutonAddAttelle = document.querySelector('#btn-add-attelle');
 boutonAddAttelle.addEventListener('click', function() {
-    console.log(records.length);
     let addNom = document.querySelector('#add-nom').value;
     let addScan = document.querySelector('#add-scan').value;
     let addDate = convertHTMLDate(document.querySelector('#add-date').value);
-    let id = 1;
-    if (records.length > 0) {
-        id = records[records.length-1].id+1;
-    }
-
-    let newRecord = new Record (id, addNom, addScan, addDate);
+   
+    let newRecord = new Record (addNom, addScan, addDate);
 
     formulaireAddAttelle.style.display = "";
 
@@ -181,7 +175,7 @@ popUpImpression.addEventListener('click', function() {
         },
         body: JSON.stringify(rec), 
     })
-    .then(response => response.json())
+    .then(response => (response.json()))
     .then(data => {
         displayRecords();
         popUp.classList.replace('block', 'hidden');
@@ -254,14 +248,17 @@ document.addEventListener('click', function() {
     }
 });
 
+// TODO : Enlever les windows.location.reload() et mettre des fonctions affichage désaffichage | Fonctionnatlité suppréssions multiple attelles terminé |
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let testdelete = document.querySelector('#test');
 testdelete.addEventListener('click', function(){
     fetch('http://localhost:3000/api/attelles', { 
         method: 'delete',
     })
-    .then(response => console.log(response.json()))
+    .then(response => window.location.reload())
     .catch(err => {
         console.error(err);
     });  
 })
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

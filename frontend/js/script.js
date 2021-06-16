@@ -1,6 +1,5 @@
 class Record {
-    constructor (id, patient, scan, impression) {
-        this.id = id
+    constructor (patient, scan, impression) {
         this.isPrinting = false;
         this.isFinished = false;
         this.patient = patient;

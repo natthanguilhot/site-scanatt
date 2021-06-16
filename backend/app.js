@@ -26,7 +26,7 @@ app.post('/api/attelles', (req,res,next)=>{
         ...req.body
     });
     attelle.save()
-    .then(()=>res.status(201).json({ message :'attelle enregistré' }))
+    .then(()=>res.status(201).json({ message :'Attelle enregistré' }))
     .catch(error=> res.status(400).json({ error }))
 });
 
@@ -45,8 +45,12 @@ app.put('/api/attelles/:id', (req,res,next)=>{
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.delete('/api/attelles', (req,res,next)=>{
     Attelle.deleteMany()
-    .then(()=>res.status(201).json({ message :'Attelle mis à jour !'}))
+    .then(()=>res.status(201).json({ message :'Toutes les attelles ont été supprimé !'}))
     .catch(error=> res.status(400).json({ error }))
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = app;
+
+
+
+// TODO : refact du code backend
