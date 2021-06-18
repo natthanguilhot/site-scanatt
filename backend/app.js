@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-
-const Attelle = require('./models/Attelle');
+const attelleRoutes = require('./routes/attelle');
+const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb+srv://Natt:1234@cluster0.d4jo3.mongodb.net/Attelles?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -20,47 +20,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-// POST
-app.post('/api/attelles', (req,res,next)=>{
-    delete req.body._id;
-    const attelle = new Attelle({
-        ...req.body
-    });
-    attelle.save()
-    .then(()=>res.status(201).json({ message :'Attelle enregistré' }))
-    .catch(error=> res.status(400).json({ error }))
-});
+app.use('/api/attelles', attelleRoutes);
+app.use('/api/auth', userRoutes);
 
-// GET
-app.get('/api/attelles', (req, res, next) => {
-    Attelle.find()
-    .then(attelles => res.status(200).json(attelles))
-    .catch(error=> res.status(400).json({ error }))
-});
-
-// GET ONE
-app.get('/api/attelles/:id', (req, res, next) => {
-    Attelle.findOne({ _id: req.params.id })
-      .then(attelle => res.status(200).json(attelle))
-      .catch(error => res.status(404).json({ error }));
-});   
-
-// PUT
-app.put('/api/attelles/:id', (req,res,next)=>{
-    Attelle.updateOne({ _id:req.params.id},{...req.body, _id:req.params.id})
-    .then(()=>res.status(201).json({ message :'Attelle mis à jour !'}))
-    .catch(error=> res.status(400).json({ error }))
-});
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-app.delete('/api/attelles', (req,res,next)=>{
-    Attelle.deleteMany()
-    .then(()=>res.status(201).json({ message :'Toutes les attelles ont été supprimé !'}))
-    .catch(error=> res.status(400).json({ error }))
-});
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = app;
-
-
-
-// TODO : refact du code backend
