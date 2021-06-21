@@ -83,3 +83,9 @@ function displayRecordsDeleted () {
 };
 
 displayRecordsDeleted();
+
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', () => {
+    sessionStorage.removeItem('User');
+    window.location.href = "http://127.0.0.1:5500/frontend/index.html";     
+});
