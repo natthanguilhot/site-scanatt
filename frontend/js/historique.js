@@ -1,14 +1,18 @@
+let token = JSON.parse(sessionStorage.getItem('User')).token;
+
 function restoreDeleted() {
     let index = this.parentNode.dataset.indexAttelle;
 
     records[index].isDeleted = false;
     records[index].dateDeleted = null;
     let record = records[index];
+
     
     fetch('http://localhost:3000/api/attelles/'+ record._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'authorization': token
         },
         body: JSON.stringify(record), 
     })
@@ -44,7 +48,13 @@ function addDisplayRecord(index, record, htmlTemplate, domRecords) {
 let records = []
 
 function displayRecordsDeleted () {
-    fetch('http://localhost:3000/api/attelles')
+    fetch('http://localhost:3000/api/attelles',{
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+    },
+    })
     .then(response => response.json())
     .then(response => {
         records = response;

@@ -1,3 +1,7 @@
+if(!sessionStorage.getItem('User') === true){
+    window.location.href = "http://127.0.0.1:5500/frontend/index.html";
+} 
+
 function onStateChange(line, isPrinting) {
     if(!isPrinting) {
         line.querySelector('.ico-printing').style.display = "none";
@@ -11,6 +15,8 @@ function onStateChange(line, isPrinting) {
 let popUp = document.querySelector('#pop-up');
 
 let records = [];
+let token = JSON.parse(sessionStorage.getItem('User')).token;
+
 
 function deleteFinished() {
     let index = this.parentNode.dataset.indexAttelle;
@@ -20,6 +26,7 @@ function deleteFinished() {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'authorization': token
         },
         body: JSON.stringify(records[index]), 
     })
@@ -53,29 +60,41 @@ function displayRecords() {
     for(let old of oldHTMLRecords) {
         domRecordsArray.removeChild(old);
     }
-    records.forEach(function(attelle, i) {
-        if(attelle.isFinished == false && attelle.isDeleted == false) {
-            let newLigne = ligne.cloneNode(true);
-            newLigne.removeAttribute('id');
-            newLigne.classList.add('patient');
-            newLigne.style.display = 'flex';
-            newLigne.addEventListener('click', function(event) {
-                popUp.dataset.idAttelle = i;
-                const x = event.pageX;
-                const y = event.pageY;
-                popUp.style.top = y +'px';
-                popUp.style.left = x +'px';
-                popUp.style.zIndex = '100';
-                setTimeout(function() {
-                    if (popUp.classList.contains('hidden')) {
-                        popUp.classList.replace('hidden', 'block');
-                    }
-                }, 1);
-            });
-            insertLigne (attelle, newLigne);
-            domRecordsArray.appendChild(newLigne);
-        }
-    });
+    fetch("http://localhost:3000/api/attelles", { 
+        method: 'GET',
+        headers: {
+            'authorization': token
+        },
+        })
+    .then(response => response.json())
+    .then(response => {
+        records = response;
+        records.forEach(function(attelle, i) {
+            if(attelle.isFinished == false && attelle.isDeleted == false) {
+                let newLigne = ligne.cloneNode(true);
+                newLigne.removeAttribute('id');
+                newLigne.classList.add('patient');
+                newLigne.style.display = 'flex';
+                newLigne.dataset.idAttelle = i;
+                newLigne.addEventListener('click', function(event) {
+                    popUp.dataset.idAttelle = i;
+                    const x = event.pageX;
+                    const y = event.pageY;
+                    popUp.style.top = y +'px';
+                    popUp.style.left = x +'px';
+                    popUp.style.zIndex = '100';
+                    setTimeout(function() {
+                        if (popUp.classList.contains('hidden')) {
+                            popUp.classList.replace('hidden', 'block');
+                        }
+                    }, 1);
+                });
+                insertLigne (attelle, newLigne);
+                domRecordsArray.appendChild(newLigne);
+            }
+        });
+    })
+    .catch(error => console.log(error));    
 };
 //
 // Création/actualisation d'une ligne FINI html pour chaque ligne du array recordsFinished
@@ -99,20 +118,29 @@ function displayRecordsFinished () {
     for(let old of oldHTMLRecordsFinished) {
         domRecordsFinishedArray.removeChild(old);
     }
-
-    records.forEach(function(attelleFini, i) {
-        if(attelleFini.isFinished == true && attelleFini.isDeleted == false) {
-            let newLigneFinished = ligneFinished.cloneNode(true);
-            newLigneFinished.removeAttribute('id');
-            newLigneFinished.classList.add('patientfini');
-            newLigneFinished.classList.remove('hidden');
-            newLigneFinished.dataset.idAttelle = attelleFini.id;
-            newLigneFinished.dataset.indexAttelle = i;
-            let icSupp = newLigneFinished.querySelector('i');
-            icSupp.addEventListener('click', deleteFinished);
-            insertLigneFini (attelleFini, newLigneFinished);
-            domRecordsFinishedArray.appendChild(newLigneFinished);
-        }
+    fetch("http://localhost:3000/api/attelles", { 
+        method: 'GET',
+        headers: {
+            'authorization': token
+        },
+        })
+    .then(response => response.json())
+    .then(response => {
+        records = response;
+        records.forEach(function(attelleFini, i) {
+            if(attelleFini.isFinished == true && attelleFini.isDeleted == false) {
+                let newLigneFinished = ligneFinished.cloneNode(true);
+                newLigneFinished.removeAttribute('id');
+                newLigneFinished.classList.add('patientfini');
+                newLigneFinished.classList.remove('hidden');
+                newLigneFinished.dataset.idAttelle = attelleFini.id;
+                newLigneFinished.dataset.indexAttelle = i;
+                let icSupp = newLigneFinished.querySelector('i');
+                icSupp.addEventListener('click', deleteFinished);
+                insertLigneFini (attelleFini, newLigneFinished);
+                domRecordsFinishedArray.appendChild(newLigneFinished);
+            }
+        });
     });
 };
 //
@@ -140,16 +168,20 @@ boutonAddAttelle.addEventListener('click', function() {
     let newRecord = new Record (addNom, addScan, addDate);
     records.push(newRecord);
 
-    formulaireAddAttelle.style.display = "";
 
     fetch('http://localhost:3000/api/attelles', { 
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': token,
         },
         body: JSON.stringify(newRecord)
     })
-    .then(() => displayRecords())
+    .then(response => response.json())
+    .then(()=> {
+        formulaireAddAttelle.style.display = "";
+        displayRecords();
+    })
     .catch(err => {
         console.error(err);
     });
@@ -164,10 +196,12 @@ let popUpDone = document.querySelector('#popup-done');
 popUpImpression.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
+    console.log(rec);
     fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'authorization': token
         },
         body: JSON.stringify(rec), 
     })
@@ -189,6 +223,7 @@ popUpDelete.addEventListener('click', function() {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'authorization': token
         },
         body: JSON.stringify(rec), 
     })
@@ -199,12 +234,12 @@ popUpDelete.addEventListener('click', function() {
 });
 popUpDone.addEventListener('click', function() {
     records[popUp.dataset.idAttelle].isFinished = true;
-    records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
     fetch('http://localhost:3000/api/attelles/'+ rec._id, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'authorization': token
         },
         body: JSON.stringify(rec), 
     })
@@ -220,26 +255,18 @@ popUpDone.addEventListener('click', function() {
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let data ;
-
-fetch("http://localhost:3000/api/attelles")
-.then(response => response.json())
-.then(response => {
-    records = response;
-    init();
-})
-
 function init() {
     displayRecords();
     displayRecordsFinished();
 }
+
+init();
 
 document.addEventListener('click', function() {
     if (popUp.classList.contains('block')) {
         popUp.classList.replace('block', 'hidden');
     }
 });
-
 
 /////////////////////////////////////////////////////////////////////////////////////////// SUPPR ALL //////////////////////////////////////////////
 const supprAllFinished = document.querySelector('#suppr_all_finished');
@@ -252,6 +279,7 @@ supprAllFinished.addEventListener('click', function(){
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': token
                 },
                 body: JSON.stringify(attelle), 
             })
@@ -265,11 +293,37 @@ supprAllFinished.addEventListener('click', function(){
     }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\ DELETE ALL /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 let testdelete = document.querySelector('#test');
 testdelete.addEventListener('click', function(){
     fetch('http://localhost:3000/api/attelles', { 
         method: 'delete',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': token
+        },
     })
     .then(() => 
         window.location.reload())
@@ -277,4 +331,4 @@ testdelete.addEventListener('click', function(){
         console.error(err);
     });  
 })
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\

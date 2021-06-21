@@ -5,14 +5,30 @@ btnLogin.addEventListener('click', () => {
     user = {email: email, password: password};
 
     fetch('http://localhost:3000/api/auth/login', { 
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
     })
-    .then(()=>{ window.location.href='http://127.0.0.1:5500/frontend/html/suivi.html'})
-    .catch(err => {
-        console.error(err);
+    .then( response => response.json())
+    .then(response => {
+        if(!sessionStorage.getItem('User') === false){
+            sessionStorage.removeItem('User');
+            let user = {userId :response.userId,
+                token : response.token
+            };
+            sessionStorage.setItem('User', JSON.stringify(user));    
+            window.location.href = "http://127.0.0.1:5500/frontend/html/suivi.html";
+        } else {
+            let user = {userId :response.userId,
+                token : response.token
+            };
+            sessionStorage.setItem('User', JSON.stringify(user));   
+            window.location.href = "http://127.0.0.1:5500/frontend/html/suivi.html";     
+        }
+    })
+    .catch(error => {
+        console.error(error);
     });
 });
