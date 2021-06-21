@@ -1,3 +1,8 @@
+if(!sessionStorage.getItem('User') === true){
+    window.location.href = "http://127.0.0.1:5500/frontend/index.html";
+} 
+
+
 let token = JSON.parse(sessionStorage.getItem('User')).token;
 
 function restoreDeleted() {
