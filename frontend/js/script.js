@@ -1,5 +1,5 @@
 class Record {
-    constructor (patient, scan, impression) {
+    constructor(patient, scan, impression) {
         this.isPrinting = false;
         this.isFinished = false;
         this.patient = patient;
@@ -18,19 +18,20 @@ Date.prototype.DDMMYYYYHHMMSS = function () {
     var mm = this.getMinutes();
     var ss = this.getSeconds();
     return [
-        (dd>9 ? '' : '0') + dd,
-        (MM>9 ? '' : '0') + MM,
-        yyyy].join('/') + "-" +
-        [(hh>9 ? '' : '0') + hh,
-        (mm>9 ? '' : '0') + mm,
-        (ss>9 ? '' : '0') + ss].join(':');
+        (dd > 9 ? '' : '0') + dd,
+        (MM > 9 ? '' : '0') + MM,
+        yyyy
+    ].join('/') + "-" + [(hh > 9 ? '' : '0') + hh,
+        (mm > 9 ? '' : '0') + mm,
+        (ss > 9 ? '' : '0') + ss
+    ].join(':');
 };
 
 Date.prototype.diffInDays = function (other) {
-    return Math.round((other.valueOf()-this.valueOf())/(1000*60*60*24));
+    return Math.round((other.valueOf() - this.valueOf()) / (1000 * 60 * 60 * 24));
 };
 
-function convertHTMLDate (date) {
+function convertHTMLDate(date) {
     let dateToSplitted = date.split('-');
-    return dateToSplitted[2]+'/'+dateToSplitted[1]+'/'+dateToSplitted[0];
+    return dateToSplitted[2] + '/' + dateToSplitted[1] + '/' + dateToSplitted[0];
 };
