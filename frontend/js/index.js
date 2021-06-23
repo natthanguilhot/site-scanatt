@@ -6,10 +6,11 @@ btnLogin.addEventListener('click', () => {
         email: email,
         password: password
     };
+    console.log(identifiers);
     fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(identifiers),
         })
@@ -17,14 +18,14 @@ btnLogin.addEventListener('click', () => {
         .then(response => {
             if (!sessionStorage.getItem('User') === false) {
                 sessionStorage.removeItem('User');
-                let user = {
+                const user = {
                     userId: response.userId,
                     token: response.token
                 };
                 sessionStorage.setItem('User', JSON.stringify(user));
                 window.location.href = "http://127.0.0.1:5500/frontend/html/suivi.html";
             } else {
-                let user = {
+                const user = {
                     userId: response.userId,
                     token: response.token
                 };

@@ -20,7 +20,7 @@ btnInscription.addEventListener('click', () => {
     const password = document.querySelector('#password').value;
 
     const user = new User(email, password);
-    if (emailControl(email)) {
+    // if (emailControl(email)) {
 
         fetch('http://localhost:3000/api/auth/signup', {
                 method: 'POST',
@@ -35,5 +35,5 @@ btnInscription.addEventListener('click', () => {
             .catch(err => {
                 console.error(err);
             });
-    }
+    // }
 });
