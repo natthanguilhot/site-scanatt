@@ -16,7 +16,6 @@ let popUp = document.querySelector('#pop-up');
 let records = [];
 let token = JSON.parse(sessionStorage.getItem('User')).token;
 
-
 function deleteFinished() {
     let index = this.parentNode.dataset.indexAttelle;
     records[index].isDeleted = true;
