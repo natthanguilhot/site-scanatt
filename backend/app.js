@@ -4,8 +4,11 @@ const app = express();
 const mongoose = require('mongoose');
 const attelleRoutes = require('./routes/attelle');
 const userRoutes = require('./routes/user');
+const dotenv = require('dotenv');
+dotenv.config();
 
-mongoose.connect('mongodb+srv://Natt:1234@cluster0.d4jo3.mongodb.net/Attelles?retryWrites=true&w=majority',
+
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.d4jo3.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB réussie !'))
