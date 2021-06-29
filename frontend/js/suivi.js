@@ -15,6 +15,7 @@ let popUp = document.querySelector('#pop-up');
 
 let records = [];
 let token = JSON.parse(sessionStorage.getItem('User')).token;
+console.log(token);
 
 function deleteFinished() {
     let index = this.parentNode.dataset.indexAttelle;
@@ -265,7 +266,6 @@ document.addEventListener('click', function () {
     }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////// SUPPR ALL //////////////////////////////////////////////
 const supprAllFinished = document.querySelector('#suppr_all_finished');
 supprAllFinished.addEventListener('click', function () {
     for (let attelle of records) {

@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -6,7 +5,6 @@ const attelleRoutes = require('./routes/attelle');
 const userRoutes = require('./routes/user');
 const dotenv = require('dotenv');
 dotenv.config();
-
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.d4jo3.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
@@ -24,6 +22,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/api/auth', userRoutes);
-app.use('/api/attelles', attelleRoutes);
+app.use('/api/sauces', attelleRoutes);
 
 module.exports = app;
