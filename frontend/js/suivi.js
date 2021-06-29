@@ -1,6 +1,12 @@
-if (!sessionStorage.getItem('User') === true) {
+let token;
+if (!localStorage.getItem('User') === true) {
     window.location.href = "http://127.0.0.1:5500/frontend/index.html";
+} else {
+    const data = JSON.parse(localStorage.getItem('User'));
+    token = data.token;
 }
+
+console.log(token);
 
 function onStateChange(line, isPrinting) {
     if (!isPrinting) {
@@ -14,8 +20,7 @@ function onStateChange(line, isPrinting) {
 let popUp = document.querySelector('#pop-up');
 
 let records = [];
-let token = JSON.parse(sessionStorage.getItem('User')).token;
-console.log(token);
+
 
 function deleteFinished() {
     let index = this.parentNode.dataset.indexAttelle;
@@ -292,7 +297,7 @@ supprAllFinished.addEventListener('click', function () {
 
 const logout = document.querySelector('#logout');
 logout.addEventListener('click', () => {
-    sessionStorage.removeItem('User');
+    localStorage.removeItem('User');
     window.location.href = "http://127.0.0.1:5500/frontend/index.html";
 });
 

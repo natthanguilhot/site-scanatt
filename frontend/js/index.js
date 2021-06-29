@@ -15,20 +15,20 @@ btnLogin.addEventListener('click', () => {
         })
         .then(response => response.json())
         .then(response => {
-            if (!sessionStorage.getItem('User') === false) {
-                sessionStorage.removeItem('User');
+            if (!localStorage.getItem('User') === false) {
+                localStorage.removeItem('User');
                 const user = {
                     userId: response.userId,
                     token: response.token
                 };
-                sessionStorage.setItem('User', JSON.stringify(user));
+                localStorage.setItem('User', JSON.stringify(user));
                 window.location.href = "http://127.0.0.1:5500/frontend/html/suivi.html";
             } else {
                 const user = {
                     userId: response.userId,
                     token: response.token
                 };
-                sessionStorage.setItem('User', JSON.stringify(user));
+                localStorage.setItem('User', JSON.stringify(user));
                 window.location.href = "http://127.0.0.1:5500/frontend/html/suivi.html";
             }
         })
