@@ -6,8 +6,6 @@ if (!localStorage.getItem('User') === true) {
     token = data.token;
 }
 
-console.log(token);
-
 function onStateChange(line, isPrinting) {
     if (!isPrinting) {
         line.querySelector('.ico-printing').style.display = "none";
