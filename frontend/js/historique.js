@@ -1,9 +1,9 @@
-if (!sessionStorage.getItem('User') === true) {
+if (!localStorage.getItem('User') === true) {
     window.location.href = "http://127.0.0.1:5500/frontend/index.html";
 }
 
 
-let token = JSON.parse(sessionStorage.getItem('User')).token;
+let token = JSON.parse(localStorage.getItem('User')).token;
 
 function restoreDeleted() {
     let index = this.parentNode.dataset.indexAttelle;

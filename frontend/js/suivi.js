@@ -197,7 +197,6 @@ let popUpDone = document.querySelector('#popup-done');
 popUpImpression.addEventListener('click', function () {
     records[popUp.dataset.idAttelle].isPrinting = true;
     let rec = records[popUp.dataset.idAttelle];
-    console.log(rec);
     fetch('http://localhost:3000/api/attelles/' + rec._id, {
             method: 'PUT',
             headers: {
