@@ -5,6 +5,7 @@ const attelleRoutes = require('./routes/attelle');
 const userRoutes = require('./routes/user');
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require('path');
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.d4jo3.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
@@ -19,6 +20,8 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+
+app.use('/scans', express.static(path.join(__dirname, 'scan')));
 
 app.use('/api/auth', userRoutes);
 app.use('/api/attelles', attelleRoutes);

@@ -255,13 +255,6 @@ popUpDone.addEventListener('click', function () {
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function init() {
-    displayRecords();
-    displayRecordsFinished();
-}
-
-init();
-
 document.addEventListener('click', function () {
     if (popUp.classList.contains('block')) {
         popUp.classList.replace('block', 'hidden');
@@ -298,6 +291,18 @@ logout.addEventListener('click', () => {
     window.location.href = "http://127.0.0.1:5500/frontend/index.html";
 });
 
+const refreshAttelle = document.querySelector('#reload_attelles');
+refreshAttelle.addEventListener('click', () =>{
+    init();
+})
+
+function init() {
+    displayRecords();
+    displayRecordsFinished();
+}
+
+setInterval(init,1800000);
+init();
 
 
 
