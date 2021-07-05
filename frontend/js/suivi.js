@@ -55,7 +55,7 @@ function insertLigne(nouvelleInstance, elementLigne) {
     elementLigne.querySelector('.delai').innerHTML = now.diffInDays(dateImp) + ' jr(s)';
 };
 
-function compare () {
+function compare() {
 
 }
 
@@ -320,7 +320,7 @@ logout.addEventListener('click', () => {
 });
 
 const refreshAttelle = document.querySelector('#reload_attelles');
-refreshAttelle.addEventListener('click', () =>{
+refreshAttelle.addEventListener('click', () => {
     init();
 })
 
@@ -329,7 +329,7 @@ function init() {
     displayRecordsFinished();
 }
 
-setInterval(init,1800000);
+setInterval(init, 1800000);
 init();
 
 
