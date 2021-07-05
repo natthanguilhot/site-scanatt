@@ -55,6 +55,10 @@ function insertLigne(nouvelleInstance, elementLigne) {
     elementLigne.querySelector('.delai').innerHTML = now.diffInDays(dateImp) + ' jr(s)';
 };
 
+function compare () {
+
+}
+
 function displayRecords() {
     let ligne = document.querySelector('#patient');
     let domRecordsArray = document.querySelector('#records-array');
@@ -72,7 +76,31 @@ function displayRecords() {
         .then(response => {
             records = response;
             records.forEach(function (attelle, i) {
-                if (attelle.isFinished == false && attelle.isDeleted == false) {
+                if (attelle.isFinished == false && attelle.isDeleted == false && attelle.isPrinting == true) {
+                    let newLigne = ligne.cloneNode(true);
+                    newLigne.removeAttribute('id');
+                    newLigne.classList.add('patient');
+                    newLigne.style.display = 'flex';
+                    newLigne.dataset.idAttelle = i;
+                    newLigne.addEventListener('click', function (event) {
+                        popUp.dataset.idAttelle = i;
+                        const x = event.pageX;
+                        const y = event.pageY;
+                        popUp.style.top = y + 'px';
+                        popUp.style.left = x + 'px';
+                        popUp.style.zIndex = '100';
+                        setTimeout(function () {
+                            if (popUp.classList.contains('hidden')) {
+                                popUp.classList.replace('hidden', 'block');
+                            }
+                        }, 1);
+                    });
+                    insertLigne(attelle, newLigne);
+                    domRecordsArray.appendChild(newLigne);
+                }
+            });
+            records.forEach(function (attelle, i) {
+                if (attelle.isFinished == false && attelle.isDeleted == false && attelle.isPrinting == false) {
                     let newLigne = ligne.cloneNode(true);
                     newLigne.removeAttribute('id');
                     newLigne.classList.add('patient');
